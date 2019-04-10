@@ -30,8 +30,6 @@ CREATE TABLE levels (
 CREATE TABLE categories (
 	id INT NOT NULL AUTO_INCREMENT,
 	category_name VARCHAR(255) NOT NULL,
-	level_id INT NOT NULL,
-	FOREIGN KEY (level_id) REFERENCES levels(id),
 	PRIMARY KEY (id)
 );
 
@@ -41,17 +39,36 @@ CREATE TABLE scores (
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE questions (
+CREATE TABLE category_levels (
 	id INT NOT NULL AUTO_INCREMENT,
-	question VARCHAR(255) NOT NULL,
-	option_one VARCHAR(255) NOT NULL,
-	option_two VARCHAR(255) NOT NULL,
-	option_three VARCHAR(255) NOT NULL,
-	option_four VARCHAR(255) NOT NULL,
-	correct_answer VARCHAR(255) NOT NULL,
 	category_id INT NOT NULL,
 	level_id INT NOT NULL,
 	FOREIGN KEY (level_id) REFERENCES levels(id),
 	FOREIGN KEY (category_id) REFERENCES categories(id),
 	PRIMARY KEY (id)
 );
+
+CREATE TABLE questions (
+	id INT NOT NULL AUTO_INCREMENT,
+	question VARCHAR(255) NOT NULL,
+	category_levels_id INT NOT NULL,
+	FOREIGN KEY (category_levels_id) REFERENCES category_levels(id),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE answers (
+	id INT NOT NULL AUTO_INCREMENT,
+	option_name VARCHAR(255) NOT NULL,
+	question_id INT NOT NULL,
+	is_correct VARCHAR(255) DEFAULT 'false',
+	FOREIGN KEY (question_id) REFERENCES questions(id),
+	PRIMARY KEY (id)
+);
+
+
+
+
+
+
+
+
