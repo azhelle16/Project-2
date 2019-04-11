@@ -1,5 +1,11 @@
 USE quiz_app;
 
+INSERT INTO teams (team_name, score) VALUES	
+("Gryffindor", 0),
+("Slytherin", 0),
+("Ravenclaw", 0),
+("Hufflepuff", 0);
+
 INSERT INTO levels (level_name) VALUES	
 ("Easy"),
 ("Difficult");
