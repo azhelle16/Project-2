@@ -6,7 +6,9 @@ var bodyParser = require('body-parser');
 
 app.use(methodOverride('_method'));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 app.use(bodyParser.json());
 
@@ -17,7 +19,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'shooting',
+  password: '',
   database: 'quiz_app'
 });
 
