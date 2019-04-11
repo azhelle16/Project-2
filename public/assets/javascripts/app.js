@@ -1,10 +1,12 @@
-var userTeam;
+var userTeamId;
 
 $("#teamSelect").submit(function(e) {
 
-  e.preventDefault(); // avoid to execute the actual submit of the form.
-  userTeam = $("#teamsDiv button").val();
+  e.preventDefault();
 
+  //will be used for team_id in users table
+  userTeamId = $("input[name='teamName']:checked").val();
+  
 });
 
 function getTeams() {
@@ -16,12 +18,24 @@ function getTeams() {
 
     for (var teamIndex in t) {
 
-      var teamButton = $("<button>");
+      //made var radioNum for creating unique id for input type radio
+      var radioNum = "radio" + teamIndex;
 
-      teamButton.html(`${t[teamIndex].team_name}`)
-        .attr("value", t[teamIndex].id);
+      var teamLabel = $("<label>");
+      var teamRadio = $("<input>");
 
-      $("#teamsDiv").append(teamButton);
+      teamLabel.attr("for", t[teamIndex].id + radioNum)
+	      		.attr("class", "tLabel")
+	           	.html(t[teamIndex].team_name);
+
+	  teamRadio.attr("type", "radio")
+	            .attr("name", "teamName")
+	            .attr("id", t[teamIndex].id + radioNum)//unique id for radio
+	            .attr("class", "tRadio")
+	            .attr("value", t[teamIndex].id);
+
+      $("#teamsDiv").append(teamRadio);
+      $("#teamsDiv").append(teamLabel);
 
     }
 
