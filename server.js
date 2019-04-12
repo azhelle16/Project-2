@@ -3,6 +3,7 @@ var app = express();
 var path = require("path");
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
+var md5 = require("md5")
 
 app.use(methodOverride('_method'));
 
@@ -57,6 +58,14 @@ app.get('/answers', function(req, res) {
   connection.query('SELECT * FROM answers', function(error, results, fields) {
     if (error) res.send(error)
     else res.json(results);
+  });
+});
+
+app.post('/sign-up', function(req, res) {
+  var pass = md5(req.body.password)
+  connection.query('INSERT INTO users (username, password, role, team_id) VALUES (?,?,?,?)', [req.body.name, pass, 0, 1],  function(error, results, fields) {
+    if (error) res.send({error : error})
+    else res.json({id : results.insertId});
   });
 });
 

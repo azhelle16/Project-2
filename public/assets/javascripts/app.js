@@ -41,7 +41,7 @@ $(document).on("click", 'button', function() {
     case "sign-up":
       var isOK = validateData();
       if (isOK) {
-        signUp()
+        loginSignUp(0)
       } else {
           return
         }
@@ -49,7 +49,7 @@ $(document).on("click", 'button', function() {
     case "login":
       var isOK = validateData();
       if (isOK) {
-        signUp()
+        loginSignUp(1)
       } else {
           return
         }
@@ -225,10 +225,10 @@ function alertMsg(msg) {
  #
  #  FUNCTION NAME : validateData
  #  AUTHOR        : Maricel Louise Sumulong
- #  DATE          : April 08, 2019 PDT
- #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 10, 2019 PDT
- #  REVISION #    : 2
+ #  DATE          : April 11, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
  #  DESCRIPTION   : validates form
  #  PARAMETERS    : none
  #
@@ -246,5 +246,54 @@ function validateData() {
   }
 
   return 1
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : loginSignUp
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 11, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : 
+ #  PARAMETERS    : flag for sign up or login
+ #
+ #######################################################################
+*/
+
+function loginSignUp(flag) {
+
+  var user = $("#username").val()
+  var pass = $("#password").val()
+
+  switch (flag) {
+    case 0:
+      var url = "/sign-up"
+    break;
+  }
+
+  $.ajax({
+    url: url,
+    method: 'POST',
+    data: {name : user, password : pass}
+  }).then(function(c) {
+
+      switch (flag) {
+        case 0:
+          if ('error' in c) {
+            alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
+          } else {
+              alertMsg("Account Successfully Created!!!")
+              clearData
+            }
+        break;
+      }
+
+
+
+  });
 
 }
