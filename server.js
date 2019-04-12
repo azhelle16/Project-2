@@ -19,7 +19,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'shooting',
   database: 'quiz_app'
 });
 
