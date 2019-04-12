@@ -26,7 +26,7 @@ $(document).ready(function() {
   $("#teamSelect").submit(function(e) {
 
     e.preventDefault();
-    
+
     //will be used for team_id in users table
     userTeamId = $("input[name='teamName']:checked").val();
 
@@ -34,14 +34,17 @@ $(document).ready(function() {
 
 });
 
-$(document).on("click", 'button', function() {
+$(document).on("click", 'button', function(e) {
+
+  e.preventDefault()
+  console.log($(this).text().toLowerCase())
 
   switch ($(this).text().toLowerCase()) {
 
     case "sign-up":
       var isOK = validateData();
       if (isOK) {
-        loginSignUp(0)
+        getTeamId()
       } else {
           return
         }
@@ -53,6 +56,9 @@ $(document).on("click", 'button', function() {
       } else {
           return
         }
+    break;
+    case "confirm":
+      loginSignUp(0)
     break;
     default:
       return
@@ -272,13 +278,14 @@ function loginSignUp(flag) {
   switch (flag) {
     case 0:
       var url = "/sign-up"
+      var team = $("input[name='teamName']:checked").val();
     break;
   }
 
   $.ajax({
     url: url,
     method: 'POST',
-    data: {name : user, password : pass}
+    data: {name : user, password : pass, team : team}
   }).then(function(c) {
 
       switch (flag) {
@@ -287,13 +294,33 @@ function loginSignUp(flag) {
             alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
           } else {
               alertMsg("Account Successfully Created!!!")
-              clearData
             }
         break;
       }
 
-
-
   });
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getTeamId
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 11, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : asks user to select a team
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function getTeamId() {
+
+  $("#teamModal .modal-body").load("/teams.html",function() {
+    $("#teamModal").modal("show")
+  })
 
 }

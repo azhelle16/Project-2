@@ -63,7 +63,7 @@ app.get('/answers', function(req, res) {
 
 app.post('/sign-up', function(req, res) {
   var pass = md5(req.body.password)
-  connection.query('INSERT INTO users (username, password, role, team_id) VALUES (?,?,?,?)', [req.body.name, pass, 0, 1],  function(error, results, fields) {
+  connection.query('INSERT INTO users (username, password, role, team_id) VALUES (?,?,?,?)', [req.body.name, pass, 0, req.body.team],  function(error, results, fields) {
     if (error) res.send({error : error})
     else res.json({id : results.insertId});
   });

@@ -32,7 +32,7 @@ html {
 
 /* DIALOG */
 
-.modal-header, #modalAlertBtn {
+.modal-header, #modalAlertBtn, #modalTeamBtn {
 	background-color: #A96B62;
 	color: white;
 }
@@ -42,7 +42,7 @@ html {
 	width: 100%;
 }
 
-#alertModal {
+#alertModal, #teamModal {
 	position: absolute;
 	transform: translate(-50%, -50%);
 	left: 50%;
