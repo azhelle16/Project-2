@@ -15,10 +15,29 @@
 
 /* GLOBAL VARIABLES */
 
+//will be used for team_id in users table
+
 var userTeamId;
+
+//checked category's level
+var selectedLevel;
+
+//checked category value
+var selectedCatValue;
+
+//checked category element
+var selectedCat;
+
+//made levelNum for creating unique id
 var levelNum;
+
+//para for level names
 var levelPara;
+
+//label for category name
 var catLabel;
+
+//radio button for category
 var catRadio;
 
 $(document).ready(function() {
@@ -31,6 +50,34 @@ $(document).ready(function() {
     userTeamId = $("input[name='teamName']:checked").val();
 
   });
+
+	$("#teamSelect").on("click",function(e) {
+
+	  //will be used for team_id in users table
+	  userTeamId = $("input[name='teamName']:checked").val();
+
+	  console.log(userTeamId);
+
+	});
+
+
+	$("#topicSelect").on("click",function(e) {
+
+	  e.preventDefault();
+
+	  //checked category value
+	  selectedCatValue = $("input[name='category']:checked").val();
+
+	  //checked category element
+	  selectedCat = $("input[name='category']:checked");
+
+	  //checked category's level
+	  selectedLevel = selectedCat[0].parentElement.id;
+
+	  console.log(selectedLevel);
+	  console.log(selectedCatValue);
+
+	});
 
 });
 
@@ -191,7 +238,7 @@ function getCategories(lid) {
 
 			catRadio.attr("type", "radio")
 			  .attr("name", "category")
-			  .attr("id", catNum) //not unique id. have to work on this
+			  .attr("id", catNum)
 			  .attr("class", "cat")
 			  .attr("value", c[i].id);
 
