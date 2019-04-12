@@ -1,13 +1,41 @@
 var userTeamId;
+var selectedLevel;
+var selectedCatValue;
+var selectedCat;
 var levelNum;
 var levelPara;
 var catLabel;
 var catRadio;
 
-$("#teamSelect").submit(function(e) {
+$(document).ready(function() {
 
-  //will be used for team_id in users table
-  userTeamId = $("input[name='teamName']:checked").val();
+	$("#teamSelect").on("click",function(e) {
+
+	  //will be used for team_id in users table
+	  userTeamId = $("input[name='teamName']:checked").val();
+
+	  console.log(userTeamId);
+
+	});
+
+
+	$("#topicSelect").on("click",function(e) {
+
+	  e.preventDefault();
+
+	  //checked category value
+	  selectedCatValue = $("input[name='category']:checked").val();
+
+	  //checked category element
+	  selectedCat = $("input[name='category']:checked");
+
+	  //checked category's level
+	  selectedLevel = selectedCat[0].parentElement.id;
+
+	  console.log(selectedLevel);
+	  console.log(selectedCatValue);
+
+	});
 
 });
 
