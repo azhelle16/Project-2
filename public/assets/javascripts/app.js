@@ -1,10 +1,25 @@
+//will be used for team_id in users table
 var userTeamId;
+
+//checked category's level
 var selectedLevel;
+
+//checked category value
 var selectedCatValue;
+
+//checked category element
 var selectedCat;
+
+//made levelNum for creating unique id
 var levelNum;
+
+//para for level names
 var levelPara;
+
+//label for category name
 var catLabel;
+
+//radio button for category
 var catRadio;
 
 $(document).ready(function() {
@@ -117,7 +132,7 @@ function getCategories(lid) {
 
 			catRadio.attr("type", "radio")
 			  .attr("name", "category")
-			  .attr("id", catNum) //not unique id. have to work on this
+			  .attr("id", catNum)
 			  .attr("class", "cat")
 			  .attr("value", c[i].id);
 
