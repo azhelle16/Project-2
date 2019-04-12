@@ -42,15 +42,6 @@ var catRadio;
 
 $(document).ready(function() {
  
-  $("#teamSelect").submit(function(e) {
-
-    e.preventDefault();
-
-    //will be used for team_id in users table
-    userTeamId = $("input[name='teamName']:checked").val();
-
-  });
-
 	$("#teamSelect").on("click",function(e) {
 
 	  //will be used for team_id in users table
