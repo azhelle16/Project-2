@@ -174,7 +174,7 @@ function getCategories(lid) {
 
     for (var i = 0; i < c.length; i++) {
 
-			var catNum = "cat-"+c[i].id
+			var catNum = lid+"cat-"+c[i].id
 
 			catLabel = $("<label>");
 			catRadio = $("<input>");
