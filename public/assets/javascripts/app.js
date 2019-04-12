@@ -1,17 +1,80 @@
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : 
+ #  AUTHOR        : 
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : 
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+/* GLOBAL VARIABLES */
+
 var userTeamId;
 var levelNum;
 var levelPara;
 var catLabel;
 var catRadio;
 
-$("#teamSelect").submit(function(e) {
+$(document).ready(function() {
+ 
+  $("#teamSelect").submit(function(e) {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  //will be used for team_id in users table
-  userTeamId = $("input[name='teamName']:checked").val();
+    //will be used for team_id in users table
+    userTeamId = $("input[name='teamName']:checked").val();
+
+  });
 
 });
+
+$(document).on("click", 'button', function() {
+
+  switch ($(this).text().toLowerCase()) {
+
+    case "sign-up":
+      var isOK = validateData();
+      if (isOK) {
+        signUp()
+      } else {
+          return
+        }
+    break;
+    case "login":
+      var isOK = validateData();
+      if (isOK) {
+        signUp()
+      } else {
+          return
+        }
+    break;
+    default:
+      return
+    break;
+  }
+
+})
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getTeams
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : retrieves team information from the database
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
 
 function getTeams() {
 
@@ -47,6 +110,21 @@ function getTeams() {
 
 }
 
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getLevels
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : Juthika Shetye
+ #  REVISION DATE : April 11, 2019 PDT
+ #  REVISION #    : 2
+ #  DESCRIPTION   : retrieves level information from the database
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
 function getLevels() {
 
   $.ajax({
@@ -66,10 +144,26 @@ function getLevels() {
         .attr("id", levelNum);
 
       $("#topicsDiv").append(levelPara);
-		getCategories(levelNum);
+		  getCategories(levelNum);
     }
+  
   });
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getCategories
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : Juthika Shetye
+ #  REVISION DATE : April 11, 2019 PDT
+ #  REVISION #    : 2
+ #  DESCRIPTION   : retrieves category information from the database
+ #  PARAMETERS    : level id
+ #
+ #######################################################################
+*/
 
 function getCategories(lid) {
 
@@ -101,5 +195,56 @@ function getCategories(lid) {
     }
 
   });
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : alertMsg
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 11, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : alerts error message
+ #  PARAMETERS    : message
+ #
+ #######################################################################
+*/
+
+function alertMsg(msg) {
+
+  $("#alertModal .modal-body").empty().append(msg)
+  $("#alertModal").modal("show")
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : validateData
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 08, 2019 PDT
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 10, 2019 PDT
+ #  REVISION #    : 2
+ #  DESCRIPTION   : validates form
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function validateData() {
+
+  var name = $("#username").val()
+  var pass = $("#password").val()
+
+  if (pass == "" || name == "") {
+    alertMsg("Please fill required (*) fields.")
+    return 0
+  }
+
+  return 1
 
 }
