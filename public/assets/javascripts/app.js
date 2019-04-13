@@ -315,7 +315,7 @@ function validateData() {
  #######################################################################
 */
 
-function loginSignUp(flag) {
+function loginSignUp2(flag) {
 
   var user = $("#username").val()
   var pass = $("#password").val()
@@ -338,13 +338,140 @@ function loginSignUp(flag) {
           if ('error' in c) {
             alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
           } else {
-              alertMsg("Account Successfully Created!!!")
+              alertMsg("Account Successfully Created!!!");
+
+              //fetching results.insertId from the response 'c'
+              console.log("User ID: " + c);
+
+              //passing results.insertId in insertScore Function
+              insertScore(c);
+
+              teamScore(); //calling this function for testing
+                            //to be moved after questions are answered
             }
         break;
       }
 
   });
 
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : loginSignUp
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION #    : 
+ #  DESCRIPTION   : removed if('error' in c) as it was giving error in console,
+                    added insertScore(c),
+                    rest of the code is same as Maricel's.
+ #  PARAMETERS    : user_id
+ #
+ #######################################################################
+*/
+
+function loginSignUp(flag) {
+
+  var user = $("#username").val()
+  var pass = $("#password").val()
+
+  switch (flag) {
+    case 0:
+      var url = "/sign-up"
+      var team = $("input[name='teamName']:checked").val();
+    break;
+  }
+
+  $.ajax({
+    url: url,
+    method: 'POST',
+    data: {name : user, password : pass, team : team}
+  }).then(function(c) {
+
+      switch (flag) {
+        case 0:
+
+              alertMsg("Account Successfully Created!!!");
+
+              //fetching results.insertId from the response 'c'
+              console.log("User ID: " + c);
+
+              //passing results.insertId in insertScore Function
+              insertScore(c);
+
+              teamScore(); //calling this function for testing
+                            //to be moved after questions are answered
+
+        break;
+      }
+
+  });
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : insertScore
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION #    : 
+ #  DESCRIPTION   : inserts total score in database & fetches user_id from parameter
+ #  PARAMETERS    : user_id
+ #
+ #######################################################################
+*/
+
+function insertScore(id){
+
+	$.ajax({
+		url: '/scores-insert/' + id,
+		method: 'POST',
+		data: {	
+				score : 0 //add logic for updating score
+				}
+	}).then(function(message){
+
+		console.log("User Id " + id + " added in scores table");
+
+	});
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : totalScore
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION #    : 
+ #  DESCRIPTION   : calculates sum of scores for a particular team
+ #  PARAMETERS    : team_id
+ #
+ #######################################################################
+*/
+
+function teamScore(){
+
+  $.ajax({
+    url: '/team-score',
+    method: 'GET',
+    
+  }).then(function(sum){
+
+    for (var i = 0; i < sum.length; i++) {
+      console.log("Total score of " + sum[i].Team_Name +
+                   " with ID " + sum[i].Team_Id + 
+                   " is : " + sum[i].Team_Score);
+    }
+    
+  });
 }
 
 /*
