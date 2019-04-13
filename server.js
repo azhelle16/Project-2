@@ -66,7 +66,7 @@ app.post('/sign-up', function(req, res) {
   connection.query('INSERT INTO users (username, password, role, team_id) VALUES (?,?,?,?)', [req.body.name, pass, 0, req.body.team],  function(error, results, fields) {
     if (error) res.send({error : error})
     // else res.json({id : results.insertId});
-    else res.send(results.insertId.toString());
+    else res.json({id : results.insertId.toString()});
   });
 });
 

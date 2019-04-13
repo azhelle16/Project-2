@@ -40,6 +40,9 @@ var catLabel;
 //radio button for category
 var catRadio;
 
+//userId
+var globalUserId
+
 $(document).ready(function() {
 
 	$("#teamSelect").on("click",function(e) {
@@ -306,16 +309,16 @@ function validateData() {
  #  FUNCTION NAME : loginSignUp
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 11, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
- #  DESCRIPTION   : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION #    : 1
+ #  DESCRIPTION   : logs or signs up the user based on the flag
  #  PARAMETERS    : flag for sign up or login
  #
  #######################################################################
 */
 
-function loginSignUp2(flag) {
+function loginSignUp(flag) {
 
   var user = $("#username").val()
   var pass = $("#password").val()
@@ -324,6 +327,9 @@ function loginSignUp2(flag) {
     case 0:
       var url = "/sign-up"
       var team = $("input[name='teamName']:checked").val();
+    break;
+    case 1:
+      var url = "/login"
     break;
   }
 
@@ -339,72 +345,24 @@ function loginSignUp2(flag) {
             alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
           } else {
               alertMsg("Account Successfully Created!!!");
+              globalUserId = c.id
 
               //fetching results.insertId from the response 'c'
-              console.log("User ID: " + c);
+              console.log("User ID: " + c.id);
 
               //passing results.insertId in insertScore Function
-              insertScore(c);
+              insertScore(c.id);
 
               teamScore(); //calling this function for testing
                             //to be moved after questions are answered
             }
         break;
-      }
-
-  });
-
-}
-
-/*
- #######################################################################
- #
- #  FUNCTION NAME : loginSignUp
- #  AUTHOR        : Juthika Shetye
- #  DATE          : 
- #  MODIFIED BY   : 
- #  REVISION DATE : April 12, 2019 PDT
- #  REVISION #    : 
- #  DESCRIPTION   : removed if('error' in c) as it was giving error in console,
-                    added insertScore(c),
-                    rest of the code is same as Maricel's.
- #  PARAMETERS    : user_id
- #
- #######################################################################
-*/
-
-function loginSignUp(flag) {
-
-  var user = $("#username").val()
-  var pass = $("#password").val()
-
-  switch (flag) {
-    case 0:
-      var url = "/sign-up"
-      var team = $("input[name='teamName']:checked").val();
-    break;
-  }
-
-  $.ajax({
-    url: url,
-    method: 'POST',
-    data: {name : user, password : pass, team : team}
-  }).then(function(c) {
-
-      switch (flag) {
-        case 0:
-
-              alertMsg("Account Successfully Created!!!");
-
-              //fetching results.insertId from the response 'c'
-              console.log("User ID: " + c);
-
-              //passing results.insertId in insertScore Function
-              insertScore(c);
-
-              teamScore(); //calling this function for testing
-                            //to be moved after questions are answered
-
+        case 1:
+          if ('error' in c) {
+            alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
+          } else {
+              login()
+            }
         break;
       }
 
@@ -417,9 +375,9 @@ function loginSignUp(flag) {
  #
  #  FUNCTION NAME : insertScore
  #  AUTHOR        : Juthika Shetye
- #  DATE          : 
+ #  DATE          : April 12, 2019 PDT
  #  MODIFIED BY   : 
- #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : inserts total score in database & fetches user_id from parameter
  #  PARAMETERS    : user_id
@@ -447,9 +405,9 @@ function insertScore(id){
  #
  #  FUNCTION NAME : totalScore
  #  AUTHOR        : Juthika Shetye
- #  DATE          : 
+ #  DATE          : April 12, 2019 PDT
  #  MODIFIED BY   : 
- #  REVISION DATE : April 12, 2019 PDT
+ #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : calculates sum of scores for a particular team
  #  PARAMETERS    : team_id
