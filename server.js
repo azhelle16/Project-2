@@ -69,6 +69,21 @@ app.post('/sign-up', function(req, res) {
   });
 });
 
+app.post('/availability', function(req, res) {
+  //console.log("SELECT * FROM users WHERE username="+req.body.name)
+  connection.query("SELECT * FROM users WHERE username=?", req.body.name, function(error, results, fields) {
+    if (error) res.send(error)
+    else {
+      var av = 1
+      //console.log(results)
+      if (results.length > 0) {
+        av = 0
+      }
+      res.json({ availability : av })
+    }
+  });
+});
+
 app.listen(3001, function() {
   console.log('listening on 3001');
 });

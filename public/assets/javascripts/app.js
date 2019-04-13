@@ -41,15 +41,6 @@ var catLabel;
 var catRadio;
 
 $(document).ready(function() {
- 
-  $("#teamSelect").submit(function(e) {
-
-    e.preventDefault();
-
-    //will be used for team_id in users table
-    userTeamId = $("input[name='teamName']:checked").val();
-
-  });
 
 	$("#teamSelect").on("click",function(e) {
 
@@ -84,14 +75,21 @@ $(document).ready(function() {
 $(document).on("click", 'button', function(e) {
 
   e.preventDefault()
-  console.log($(this).text().toLowerCase())
 
   switch ($(this).text().toLowerCase()) {
 
     case "sign-up":
       var isOK = validateData();
       if (isOK) {
-        getTeamId()
+        var avail = checkAvailability() 
+
+        if (avail) {
+          getTeamId()
+        } else {
+            alertMsg("Username already taken")
+            return
+          }
+
       } else {
           return
         }
@@ -369,5 +367,44 @@ function getTeamId() {
   $("#teamModal .modal-body").load("/teams.html",function() {
     $("#teamModal").modal("show")
   })
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : checkAvailability
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 11, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : checks username availability 
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function checkAvailability() {
+
+  var user = $("#username").val()
+  var ret
+
+  $.ajax({
+    url: "/availability",
+    method: 'POST',
+    data: {name : user},
+    async: false
+  }).done(function(c) {
+      
+        if ('error' in c) {
+          alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
+        } else {
+            ret =  c.availability
+          }
+
+  });
+
+  return ret
 
 }
