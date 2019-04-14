@@ -43,6 +43,9 @@ var catRadio;
 //userId
 var globalUserId
 
+//username
+var globalName
+
 $(document).ready(function() {
 
 	$("#teamSelect").on("click",function(e) {
@@ -100,7 +103,14 @@ $(document).on("click", 'button', function(e) {
     case "login":
       var isOK = validateData();
       if (isOK) {
-        loginSignUp(1)
+        var avail = checkAvailability() 
+
+        if (avail == 0) {
+          loginSignUp(1)
+        } else {
+            alertMsg("Username does not exist")
+            return
+          }
       } else {
           return
         }
@@ -210,9 +220,9 @@ function getLevels() {
  #  FUNCTION NAME : getCategories
  #  AUTHOR        : Juthika Shetye
  #  DATE          : 
- #  MODIFIED BY   : Juthika Shetye
- #  REVISION DATE : April 11, 2019 PDT
- #  REVISION #    : 2
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 14, 2019 PDT
+ #  REVISION #    : 3
  #  DESCRIPTION   : retrieves category information from the database
  #  PARAMETERS    : level id
  #
@@ -247,6 +257,8 @@ function getCategories(lid) {
 			$("#"+lid).append(catLabel);
 		
     }
+
+    getSessionInfo()
 
   });
 
@@ -310,8 +322,8 @@ function validateData() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 11, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 12, 2019 PDT
- #  REVISION #    : 1
+ #  REVISION DATE : April 14, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : logs or signs up the user based on the flag
  #  PARAMETERS    : flag for sign up or login
  #
@@ -330,6 +342,7 @@ function loginSignUp(flag) {
     break;
     case 1:
       var url = "/login"
+      var team = ""
     break;
   }
 
@@ -355,9 +368,14 @@ function loginSignUp(flag) {
         case 1:
           if ('error' in c) {
             alertMsg("ERROR: "+c.error.code+" ("+c.error.sqlMessage+")")
-          } else {
-              login()
-            }
+          } else if ('message' in c) {
+              alertMsg(c.message)
+            } else {
+                userTeamId = c.team_id
+                globalName = c.username
+                globalUserId = c.id
+                login()
+              }
         break;
       }
 
@@ -615,5 +633,62 @@ function checkAvailability() {
   });
 
   return ret
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : login
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 14, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : redirects the user to the levels page
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function login() {
+
+  $.ajax({
+    url: "/redirect-login",
+    method: 'GET',
+  }).then(function(c) {
+      window.location.href = c
+  });
+
+}
+
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getSessionInfo
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 14, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : retrieves user information
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function getSessionInfo() {
+
+  console.log("here")
+
+  $.ajax({
+    url: "/get-session",
+    method: 'GET',
+  }).then(function(c) {
+      globalUserId = c[1]
+      globalName = c[0]
+      userTeamId = c[2]
+  });
 
 }

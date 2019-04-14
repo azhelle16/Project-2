@@ -4,6 +4,8 @@ var path = require("path");
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var md5 = require("md5")
+var cparser = require("cookie-parser");
+var session = require("express-session");
 
 app.use(methodOverride('_method'));
 
@@ -14,6 +16,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(express.static("public"));
+
+app.use(session({ secret: 'app', cookie: { maxAge: 1*1000*60*60*24*365 }}));
+
+app.use(cparser());
 
 var mysql = require('mysql');
 
@@ -82,6 +88,22 @@ app.post('/availability', function(req, res) {
       }
       res.json({ availability : av })
     }
+  });
+});
+
+app.post('/login', function(req, res) {
+  var pass = md5(req.body.password)
+  connection.query('SELECT * FROM users WHERE username=? AND password=?', [req.body.name, pass],  function(error, results, fields) {
+    if (error) res.send({error : error})
+    // else res.json({id : results.insertId});
+    else if (results.length == 0) {
+        res.json({message: "Username and Password doesn't match!"})
+    } else {
+        req.session.uname = req.body.name
+        req.session.uid = results[0].id
+        req.session.tid = results[0].team_id
+        res.json(results);
+      }
   });
 });
 
@@ -181,6 +203,14 @@ app.get('/team-score', function(req, res) {
     if (error) res.send(error)
     else res.json(results);
   });
+});
+
+app.get('/redirect-login', function(req, res) {
+  res.send("levels.html")
+});
+
+app.get('/get-session', function(req, res) {
+  res.send([req.session.uname,req.session.uid,req.session.tid])
 });
 
 app.listen(3001, function() {
