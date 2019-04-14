@@ -102,20 +102,84 @@ app.get('/scores-total/:user_id', function(req, res) {
   });
 });
 
+//gets all users and their ranks with same rank for tied scores
+app.get('/all-user-ranks', function(req, res) {
+
+  const allRanks = `SELECT users.id, users.username, scores.score,
+                    DENSE_RANK() OVER (
+                      ORDER BY score DESC
+                    ) user_rank
+                    FROM scores
+                    LEFT JOIN users
+                    ON scores.user_id = users.id`
+
+  connection.query(allRanks,function(error, results, fields) {
+    if (error) res.send(error)
+    else res.json(results);
+  });
+});
+
+//gets current user's rank
+app.get('/user-rank/:user_id',function(req, res) {
+
+  const userRank = `SELECT id,name,score,user_rank 
+                    FROM (
+                    SELECT users.id id, users.username name , scores.score score,
+                    DENSE_RANK() OVER (
+                    ORDER BY score DESC
+                    ) user_rank
+                    FROM scores
+                    LEFT JOIN users
+                    ON scores.user_id = users.id
+                    ) rankingTable 
+                    WHERE id = ?`
+
+  connection.query(userRank,[req.params.user_id],function(error, results, fields) {
+    if (error) res.send(error)
+    else res.send(results[0]);
+  });
+});
+
+//displays teams rankwise
+app.get('/team-ranks', function(req, res) {
+
+  const teamRanks =`SELECT DENSE_RANK() OVER (
+                    ORDER BY SUM(scores.score) DESC
+                    ) Team_Rank,
+                    teams.team_name AS Team_Name, 
+                    teams.id AS Team_ID, 
+                    SUM(scores.score) AS Team_Score
+                    FROM scores
+                    LEFT JOIN users
+                    ON scores.user_id = users.id
+                    LEFT JOIN teams
+                    ON users.team_id = teams.id
+                    GROUP BY users.team_id
+                    ORDER BY SUM(scores.score) DESC`
+
+  connection.query(teamRanks,function(error, results, fields) {
+    if (error) res.send(error)
+    else res.json(results);
+  });
+});
+
+//gets all teams' scores
 app.get('/team-score', function(req, res) {
 
-  const q =`SELECT users.team_id AS Team_Id, teams.team_name AS Team_Name, SUM(scores.score) AS Team_Score
+  const q =`SELECT users.team_id AS Team_Id, 
+            teams.team_name AS Team_Name, 
+            SUM(scores.score) AS Team_Score
             FROM scores
             LEFT JOIN users
             ON scores.user_id = users.id
             LEFT JOIN teams
             ON users.team_id = teams.id
             GROUP BY users.team_id
-            ORDER BY SUM(scores.score) DESC;`;
+            ORDER BY SUM(scores.score) DESC`;
 
   connection.query(q,function(error, results, fields) {
     if (error) res.send(error)
-    else res.send(results);
+    else res.json(results);
   });
 });
 

@@ -347,14 +347,9 @@ function loginSignUp(flag) {
               alertMsg("Account Successfully Created!!!");
               globalUserId = c.id
 
-              //fetching results.insertId from the response 'c'
-              console.log("User ID: " + c.id);
-
-              //passing results.insertId in insertScore Function
-              insertScore(c.id);
-
-              teamScore(); //calling this function for testing
-                            //to be moved after questions are answered
+              //functions to be executed after signUp/logIn 
+              //are called inside testingFunctions
+              testingFunctions();
             }
         break;
         case 1:
@@ -403,14 +398,14 @@ function insertScore(id){
 /*
  #######################################################################
  #
- #  FUNCTION NAME : totalScore
+ #  FUNCTION NAME : teamScore
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 12, 2019 PDT
  #  MODIFIED BY   : 
  #  REVISION DATE : 
  #  REVISION #    : 
- #  DESCRIPTION   : calculates sum of scores for a particular team
- #  PARAMETERS    : team_id
+ #  DESCRIPTION   : displays all teams and their total scores
+ #  PARAMETERS    : 
  #
  #######################################################################
 */
@@ -419,7 +414,7 @@ function teamScore(){
 
   $.ajax({
     url: '/team-score',
-    method: 'GET',
+    method: 'GET'
     
   }).then(function(sum){
 
@@ -431,6 +426,135 @@ function teamScore(){
     
   });
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : userRanks
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 13, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : returns all users' ranks
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function userRanks(){
+	$.ajax({
+    url: '/all-user-ranks',
+    method: 'GET'
+    
+  }).then(function(ranks){
+
+    for (var i = 0; i < ranks.length; i++) {
+      console.log("Rank of " + ranks[i].username + " with ID " + 
+      				ranks[i].id + " and score " + ranks[i].score + 
+                   " is : " + ranks[i].user_rank);
+    }
+    
+  });
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getCurrUserRank
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 13, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : returns rank of logged-in user
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function getCurrUserRank(id){
+
+	$.ajax({
+		url: '/user-rank/' + id,
+		method: 'GET'
+	}).then(function(r){
+
+		console.log("Current User Rank " , r);
+		// console.log("Current user " + r.name + " with ID " +
+		// 			r.id + " and score of " + r.score + " has rank " + r.user_rank);
+
+	});
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : teamRanks
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 13, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : returns all teams' ranks
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function teamRanks(){
+	$.ajax({
+    url: '/team-ranks',
+    method: 'GET'
+    
+  }).then(function(t){
+
+    for (var i = 0; i < t.length; i++) {
+    	console.log("Team Ranks " , t[i]);
+      // console.log("Rank of " + t[i].username + " with ID " + 
+      // 				t[i].id + " and score " + t[i].score + 
+      //              " is : " + t[i].user_rank);
+    }
+    
+  });
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : testingFunctions
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 13, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : call all functions to be executed 
+ 					after signUp / logIn ajax call or after
+ 					answering all questions
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function testingFunctions() {
+
+	//fetching results.insertId / last inserted user_id
+    console.log("User ID: " + globalUserId);
+
+    //passing results.insertId in insertScore Function
+    insertScore(globalUserId);
+
+    //displays all teams and their total scores
+    teamScore();
+
+    //displays all users and their ranks 
+    userRanks();
+
+    getCurrUserRank(globalUserId);
+
+    teamRanks();
+}
+
 
 /*
  #######################################################################
