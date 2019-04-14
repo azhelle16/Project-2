@@ -60,15 +60,13 @@ CREATE TABLE answers (
 	id INT NOT NULL AUTO_INCREMENT,
 	option_name VARCHAR(255) NOT NULL,
 	question_id INT NOT NULL,
-	is_correct VARCHAR(255) DEFAULT 'false',
 	FOREIGN KEY (question_id) REFERENCES questions(id),
 	PRIMARY KEY (id)
 );
 
-
-
-
-
-
-
-
+CREATE TABLE solutions (
+	question_id INT NOT NULL,
+	correct_ans_id INT NOT NULL,
+	FOREIGN KEY (question_id) REFERENCES questions(id),
+	FOREIGN KEY (correct_ans_id) REFERENCES answers(id)
+);
