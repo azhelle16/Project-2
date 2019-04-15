@@ -34,12 +34,6 @@ CREATE TABLE categories (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE scores (
-	user_id INT NOT NULL,
-	score INT NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
 CREATE TABLE category_levels (
 	id INT NOT NULL AUTO_INCREMENT,
 	category_id INT NOT NULL,
