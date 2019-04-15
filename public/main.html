@@ -10,11 +10,15 @@
   <script type="text/javascript" src="assets/javascripts/app.js"></script>
 </head>    
 <body>
+  <div id="welcomeDiv">
+    <span>Welcome, <span id="currUser"></span>!&nbsp;</span>
+    <i class="fas fa-sign-out-alt" alt="Log Out"></i>
+  </div>
   <div id="levelContainer" class="index-Border">
     
   </div>
   <script type="text/javascript">
-    getSessionInfo()
+    getSessionInfo(1)
     loadLevelsAndCategories()
   </script>
 </body>

@@ -197,8 +197,15 @@ app.get('/redirect-login', function(req, res) {
 });
 
 app.get('/get-session', function(req, res) {
+  console.log(req.session.uname)
   res.send([req.session.uname,req.session.uid,req.session.tid])
 });
+
+app.get('/logout', function(req, res){
+  req.session.destroy(function(err) {
+     res.send('index.html')
+  })
+})
 
 app.listen(3001, function() {
   console.log('listening on 3001');

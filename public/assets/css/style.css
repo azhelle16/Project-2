@@ -1,7 +1,3 @@
-.catLabel, .tLabel {
-	margin-right: 2%;
-}
-
 body {
 	background-image: url("../images/main.png");
 	background-repeat: no-repeat;
@@ -28,6 +24,58 @@ html {
 
 .userLoginSignUp {
 
+}
+
+@font-face {
+    font-family: 'Vingy';
+    /*a name to be used later*/
+    src: url('../fonts/Vingy Normal.ttf');
+    /*URL to font*/
+}
+
+/* MAIN HTML */
+
+#levelContainer {
+	background-image: url("../images/ep_naturalwhite.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	text-align: center;
+	margin: 0;
+	overflow: auto;
+	border-radius: 20px;
+	padding: 15px;
+	width: 60%;
+}
+
+#welcomeDiv {
+	color: white;
+	font-family: "Vingy";
+	padding-top: 10px;
+	float: right;
+	margin-right: 20px;
+	width: auto;
+	font-size: 30px;
+	text-align: right;
+}
+
+.fa-sign-out-alt:hover {
+	cursor: pointer;
+}
+
+/* LEVELS HTML */
+
+.catLabel, .tLabel {
+	margin-right: 2%;
+}
+
+input[type="radio"] {
+	margin-right: 1%;
+}
+
+strong {
+	font-family: "Vingy";
+	font-size: 30px;
 }
 
 /* DIALOG */

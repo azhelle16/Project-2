@@ -48,6 +48,10 @@ var globalName
 
 $(document).ready(function() {
 
+  $(".fa-sign-out-alt").on("click", function() {
+      logout();
+  })
+
 	$("#teamSelect").on("click",function(e) {
 
 	  //will be used for team_id in users table
@@ -71,8 +75,9 @@ $(document).ready(function() {
 	  //checked category's level
 	  selectedLevel = selectedCat[0].parentElement.id;
 
-	  console.log(selectedLevel);
-	  console.log(selectedCatValue);
+	  //console.log(selectedLevel.split("level")[0]);
+	  // console.log(selectedCatValue);
+    getQuestions(selectedLevel.split("level")[0],selectedCatValue)
 
 	});
 
@@ -634,16 +639,16 @@ function login() {
  #  FUNCTION NAME : getSessionInfo
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 14, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 15, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : retrieves user information
- #  PARAMETERS    : none
+ #  PARAMETERS    : flag
  #
  #######################################################################
 */
 
-function getSessionInfo() {
+function getSessionInfo(flag) {
 
   $.ajax({
     url: "/get-session",
@@ -652,6 +657,11 @@ function getSessionInfo() {
       globalUserId = c[1]
       globalName = c[0]
       userTeamId = c[2]
+
+      switch (flag) {
+        case 1: $("#currUser").empty().append(globalName); break;
+      }
+
   });
 
 }
@@ -676,5 +686,36 @@ function loadLevelsAndCategories() {
   $("#levelContainer").load("levels.html", function() {
     getLevels();
   })
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : logout
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 15, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : logouts user and destroy session
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function logout() {
+
+  globalName = ""
+  globalUserId = ""
+  userTeamId = ""
+
+  $.ajax({
+    url: "/logout",
+    method: 'GET',
+  }).then(function(c) {
+      console.log(c)
+      window.location.href = c
+  });
 
 }
