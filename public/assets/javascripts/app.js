@@ -48,38 +48,42 @@ var globalName
 
 $(document).ready(function() {
 
+<<<<<<< HEAD
   $(".fa-sign-out-alt").on("click", function() {
       logout();
   })
 
 	$("#teamSelect").on("click",function(e) {
+=======
+  $("#teamSelect").on("click",function(e) {
+>>>>>>> 438e91591246124b097b8c225800f4aa4428eb16
 
-	  //will be used for team_id in users table
-	  userTeamId = $("input[name='teamName']:checked").val();
+    //will be used for team_id in users table
+    userTeamId = $("input[name='teamName']:checked").val();
 
-	  console.log(userTeamId);
+    console.log(userTeamId);
 
-	});
+  });
 
 
-	$("#topicSelect").on("click",function(e) {
+  $("#topicSelect").on("click",function(e) {
 
-	  e.preventDefault();
+    e.preventDefault();
 
-	  //checked category value
-	  selectedCatValue = $("input[name='category']:checked").val();
+    //checked category value
+    selectedCatValue = $("input[name='category']:checked").val();
 
-	  //checked category element
-	  selectedCat = $("input[name='category']:checked");
+    //checked category element
+    selectedCat = $("input[name='category']:checked");
 
-	  //checked category's level
-	  selectedLevel = selectedCat[0].parentElement.id;
+    //checked category's level
+    selectedLevel = selectedCat[0].parentElement.id;
 
 	  //console.log(selectedLevel.split("level")[0]);
 	  // console.log(selectedCatValue);
     getQuestions(selectedLevel.split("level")[0],selectedCatValue)
 
-	});
+  });
 
 });
 
@@ -213,7 +217,7 @@ function getLevels() {
         .attr("id", levelNum);
 
       $("#topicsDiv").append(levelPara);
-		  getCategories(levelNum);
+      getCategories(levelNum);
     }
   
   });
@@ -243,24 +247,24 @@ function getCategories(lid) {
 
     for (var i = 0; i < c.length; i++) {
 
-			var catNum = lid+"cat-"+c[i].id
+      var catNum = lid+"cat-"+c[i].id
 
-			catLabel = $("<label>");
-			catRadio = $("<input>");
+      catLabel = $("<label>");
+      catRadio = $("<input>");
 
-			catLabel.attr("for", catNum)
-			  .attr("class", "catLabel")
-			  .html(c[i].category_name);
+      catLabel.attr("for", catNum)
+        .attr("class", "catLabel")
+        .html(c[i].category_name);
 
-			catRadio.attr("type", "radio")
-			  .attr("name", "category")
-			  .attr("id", catNum)
-			  .attr("class", "cat")
-			  .attr("value", c[i].id);
+      catRadio.attr("type", "radio")
+        .attr("name", "category")
+        .attr("id", catNum)
+        .attr("class", "cat")
+        .attr("value", c[i].id);
 
-			$("#"+lid).append(catRadio);
-			$("#"+lid).append(catLabel);
-		
+      $("#"+lid).append(catRadio);
+      $("#"+lid).append(catLabel);
+    
     }
 
   });
@@ -434,7 +438,21 @@ function teamScore(){
 */
 
 function userRanks(){
-	$.ajax({
+
+  var userTable = $('<table>').addClass('table table-striped table-bordered');      
+  var userThead = $('<thead>');  
+  var userTr = $('<tr>');        
+  var userThTeam = $('<th>').text('Player Name');  
+  var userThScore = $('<th>').text('Score');
+  var userThRank = $('<th>').text('Rank');
+
+  userTr.append(userThTeam, userThScore, userThRank);
+  userThead.append(userTr);             
+  userTable.append(userThead);
+
+  var userTbody = $('<tbody>');
+
+  $.ajax({
     url: '/all-user-ranks',
     method: 'GET'
     
@@ -442,8 +460,18 @@ function userRanks(){
 
     for (var i = 0; i < ranks.length; i++) {
       console.log("Rank of " + ranks[i].username + " with ID " + 
-      				ranks[i].id + " and score " + ranks[i].user_score + 
+              ranks[i].id + " and score " + ranks[i].user_score + 
                    " is : " + ranks[i].user_rank);
+
+      var userTr = $('<tr>');
+      var userTdTeam = $('<td>').text(ranks[i].username);
+      var userTdScore = $('<td>').text(ranks[i].user_score);
+      var userTdRank = $('<td>').text(ranks[i].user_rank);
+
+      userTr.append(userTdTeam, userTdScore, userTdRank);
+      userTbody.append(userTr);
+      userTable.append(userTbody);
+      $('#playerRanksDiv').append(userTable);
     }
     
   });
@@ -466,16 +494,16 @@ function userRanks(){
 
 function getCurrUserRank(id){
 
-	$.ajax({
-		url: '/user-rank/' + id,
-		method: 'GET'
-	}).then(function(r){
+  $.ajax({
+    url: '/user-rank/' + id,
+    method: 'GET'
+  }).then(function(r){
 
-		console.log("Current User Rank " , r);
-		// console.log("Current user " + r.name + " with ID " +
-		// 			r.id + " and score of " + r.user_score + " has rank " + r.user_rank);
+    console.log("Current User Rank " , r);
+    // console.log("Current user " + r.name + " with ID " +
+    //      r.id + " and score of " + r.user_score + " has rank " + r.user_rank);
 
-	});
+  });
 }
 
 /*
@@ -494,17 +522,38 @@ function getCurrUserRank(id){
 */
 
 function teamRanks(){
-	$.ajax({
+
+  var table = $('<table>').addClass('table table-striped table-bordered');      
+  var thead = $('<thead>');  
+  var tr = $('<tr>');        
+  var thTeam = $('<th>').text('Team Name');  
+  var thScore = $('<th>').text('Score');
+  var thRank = $('<th>').text('Rank');
+
+  tr.append(thTeam, thScore, thRank);
+  thead.append(tr);             
+  table.append(thead);
+
+  var tbody = $('<tbody>');
+
+  $.ajax({
     url: '/team-ranks',
     method: 'GET'
     
   }).then(function(t){
 
     for (var i = 0; i < t.length; i++) {
-    	console.log("Team Ranks " , t[i]);
-      // console.log("Rank of " + t[i].username + " with ID " + 
-      // 				t[i].id + " and score " + t[i].user_score + 
-      //              " is : " + t[i].user_rank);
+      console.log("Team Ranks " , t[i]);
+
+      var tr = $('<tr>');
+      var tdTeam = $('<td>').text(t[i].Team_Name);
+      var tdScore = $('<td>').text(t[i].Team_Score);
+      var tdRank = $('<td>').text(t[i].Team_Rank);
+
+      tr.append(tdTeam, tdScore, tdRank);
+      tbody.append(tr);
+      table.append(tbody);
+      $('#teamRanksDiv').append(table);
     }
     
   });
@@ -520,8 +569,8 @@ function teamRanks(){
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : call all functions to be executed 
- 					after signUp / logIn ajax call or after
- 					answering all questions
+          after signUp / logIn ajax call or after
+          answering all questions
  #  PARAMETERS    : 
  #
  #######################################################################
@@ -529,7 +578,7 @@ function teamRanks(){
 
 function testingFunctions() {
 
-	//fetching results.insertId / last inserted user_id
+  //fetching results.insertId / last inserted user_id
     console.log("User ID: " + globalUserId);
 
     //displays all teams and their total scores

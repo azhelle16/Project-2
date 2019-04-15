@@ -100,3 +100,7 @@ strong {
 a {
 	text-decoration: none;
 }
+
+#resultsHeading {
+	text-align: center;
+}
