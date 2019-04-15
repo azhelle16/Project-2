@@ -221,8 +221,8 @@ function getLevels() {
  #  AUTHOR        : Juthika Shetye
  #  DATE          : 
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 14, 2019 PDT
- #  REVISION #    : 3
+ #  REVISION DATE : April 15, 2019 PDT
+ #  REVISION #    : 4
  #  DESCRIPTION   : retrieves category information from the database
  #  PARAMETERS    : level id
  #
@@ -257,8 +257,6 @@ function getCategories(lid) {
 			$("#"+lid).append(catLabel);
 		
     }
-
-    getSessionInfo()
 
   });
 
@@ -680,8 +678,6 @@ function login() {
 
 function getSessionInfo() {
 
-  console.log("here")
-
   $.ajax({
     url: "/get-session",
     method: 'GET',
@@ -690,5 +686,28 @@ function getSessionInfo() {
       globalName = c[0]
       userTeamId = c[2]
   });
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : loadLevelsAndCategories
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 15, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : loads levels and category page
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function loadLevelsAndCategories() {
+
+  $("#levelContainer").load("levels.html", function() {
+    getLevels();
+  })
 
 }

@@ -1,3 +1,5 @@
+// require("dotenv").config();
+//var keys = require("./keys")
 var express = require('express');
 var app = express();
 var path = require("path");
@@ -26,9 +28,19 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'password',
   database: 'quiz_app'
 });
+
+//console.log(process.env.DB_HOST)
+
+// var connection = mysql.createConnection({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASS,
+//   database: 'quiz_app'
+// });
+
 
 connection.connect();
 
@@ -206,7 +218,7 @@ app.get('/team-score', function(req, res) {
 });
 
 app.get('/redirect-login', function(req, res) {
-  res.send("levels.html")
+  res.send("main.html")
 });
 
 app.get('/get-session', function(req, res) {
