@@ -384,36 +384,6 @@ function loginSignUp(flag) {
 /*
  #######################################################################
  #
- #  FUNCTION NAME : insertScore
- #  AUTHOR        : Juthika Shetye
- #  DATE          : April 12, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
- #  DESCRIPTION   : inserts total score in database & fetches user_id from parameter
- #  PARAMETERS    : user_id
- #
- #######################################################################
-*/
-
-function insertScore(id){
-
-	$.ajax({
-		url: '/scores-insert/' + id,
-		method: 'POST',
-		data: {	
-				score : 0 //add logic for updating score
-				}
-	}).then(function(message){
-
-		console.log("User Id " + id + " added in scores table");
-
-	});
-}
-
-/*
- #######################################################################
- #
  #  FUNCTION NAME : teamScore
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 12, 2019 PDT
@@ -467,7 +437,7 @@ function userRanks(){
 
     for (var i = 0; i < ranks.length; i++) {
       console.log("Rank of " + ranks[i].username + " with ID " + 
-      				ranks[i].id + " and score " + ranks[i].score + 
+      				ranks[i].id + " and score " + ranks[i].user_score + 
                    " is : " + ranks[i].user_rank);
     }
     
@@ -498,7 +468,7 @@ function getCurrUserRank(id){
 
 		console.log("Current User Rank " , r);
 		// console.log("Current user " + r.name + " with ID " +
-		// 			r.id + " and score of " + r.score + " has rank " + r.user_rank);
+		// 			r.id + " and score of " + r.user_score + " has rank " + r.user_rank);
 
 	});
 }
@@ -528,7 +498,7 @@ function teamRanks(){
     for (var i = 0; i < t.length; i++) {
     	console.log("Team Ranks " , t[i]);
       // console.log("Rank of " + t[i].username + " with ID " + 
-      // 				t[i].id + " and score " + t[i].score + 
+      // 				t[i].id + " and score " + t[i].user_score + 
       //              " is : " + t[i].user_rank);
     }
     
@@ -556,9 +526,6 @@ function testingFunctions() {
 
 	//fetching results.insertId / last inserted user_id
     console.log("User ID: " + globalUserId);
-
-    //passing results.insertId in insertScore Function
-    insertScore(globalUserId);
 
     //displays all teams and their total scores
     teamScore();

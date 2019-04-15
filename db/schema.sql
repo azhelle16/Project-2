@@ -17,6 +17,7 @@ CREATE TABLE users (
 	password VARCHAR(255) NOT NULL,
 	role INT NOT NULL,
 	team_id INT NOT NULL,
+	user_score INT NOT NULL,
 	FOREIGN KEY (team_id) REFERENCES teams(id),
 	PRIMARY KEY (id)
 );
