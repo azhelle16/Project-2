@@ -1,11 +1,12 @@
 body {
 	background-image: url("../images/main.png");
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 	background-size: cover;
 	font-family: 'Georgia', Times, Times New Roman, serif;
 	text-align: center;
 	margin: 0;
 	overflow: auto;
+	min-height: 100vh;
 }
 
 html {
@@ -103,4 +104,34 @@ a {
 
 #resultsHeading {
 	text-align: center;
+	color: #e8ba00;
+	font-family: 'Vingy';
+	font-size: 200%;
+}
+
+.tableBg {
+	background-image: url("../images/ep_naturalwhite.png");
+	background-repeat: repeat;
+	background-size: cover;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	text-align: center;
+	margin: 0;
+	overflow: auto;
+	border-radius: 10px;
+	padding: 15px;
+	width: 100%;
+}
+
+.resultsContainer {
+	margin-top: 4%;
+	font-size: 110%;	
+}
+
+.resultsContainer h3{
+	color: #007c0f;
+}
+
+.table td{
+	font-size: 130%;
+	color: #960d28;
 }

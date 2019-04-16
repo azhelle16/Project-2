@@ -436,7 +436,7 @@ function teamScore(){
 function userRanks(){
 
   var userTable = $('<table>').addClass('table table-striped table-bordered');      
-  var userThead = $('<thead>');  
+  var userThead = $('<thead>').addClass('thead-dark');  
   var userTr = $('<tr>');        
   var userThTeam = $('<th>').text('Player Name');  
   var userThScore = $('<th>').text('Score');
@@ -520,7 +520,7 @@ function getCurrUserRank(id){
 function teamRanks(){
 
   var table = $('<table>').addClass('table table-striped table-bordered');      
-  var thead = $('<thead>');  
+  var thead = $('<thead>').addClass('thead-dark');  
   var tr = $('<tr>');        
   var thTeam = $('<th>').text('Team Name');  
   var thScore = $('<th>').text('Score');
