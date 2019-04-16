@@ -41,10 +41,13 @@ var catLabel;
 var catRadio;
 
 //userId
-var globalUserId
+var globalUserId;
 
 //username
-var globalName
+var globalName;
+
+//game score of a user
+var gameScore;
 
 //question ids array
 var qArr = []
@@ -89,6 +92,13 @@ $(document).ready(function() {
 	  //console.log(selectedLevel.split("level")[0]);
 	  // console.log(selectedCatValue);
     getQuestions(selectedLevel.split("level")[0],selectedCatValue)
+
+  });
+
+  //button for clicking submit for answers
+  $('#update_score').on("click",function(e) {
+
+    updateUserScore(globalUserId);
 
   });
 
@@ -447,7 +457,7 @@ function teamScore(){
 function userRanks(){
 
   var userTable = $('<table>').addClass('table table-striped table-bordered');      
-  var userThead = $('<thead>');  
+  var userThead = $('<thead>').addClass('thead-dark');  
   var userTr = $('<tr>');        
   var userThTeam = $('<th>').text('Player Name');  
   var userThScore = $('<th>').text('Score');
@@ -506,11 +516,42 @@ function getCurrUserRank(id){
     method: 'GET'
   }).then(function(r){
 
+    //show this info in html after answering questions
     console.log("Current User Rank " , r);
     // console.log("Current user " + r.name + " with ID " +
     //      r.id + " and score of " + r.user_score + " has rank " + r.user_rank);
 
   });
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : updateUserScore
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : Updates score of a user after answering questions
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function updateUserScore(id){
+
+  gameScore = 5; // temp no. 5, add logic to increase score
+
+  $.ajax({
+      url: '/score-update/' + id + '?_method=PUT',
+      method: 'POST',
+      data: {
+        user_score : gameScore //variable for total score after answering questions
+      }
+    }).then(function(message){
+        getCurrUserRank(id);
+    });
 }
 
 /*
@@ -531,7 +572,7 @@ function getCurrUserRank(id){
 function teamRanks(){
 
   var table = $('<table>').addClass('table table-striped table-bordered');      
-  var thead = $('<thead>');  
+  var thead = $('<thead>').addClass('thead-dark');  
   var tr = $('<tr>');        
   var thTeam = $('<th>').text('Team Name');  
   var thScore = $('<th>').text('Score');
@@ -594,7 +635,7 @@ function testingFunctions() {
     //displays all users and their ranks 
     userRanks();
 
-    getCurrUserRank(globalUserId);
+    // getCurrUserRank(globalUserId);
 
     teamRanks();
 }
