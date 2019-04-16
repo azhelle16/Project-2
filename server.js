@@ -103,6 +103,15 @@ app.post('/availability', function(req, res) {
   });
 });
 
+app.put('/score-update/:id', function(req, res){
+    connection.query('UPDATE users SET user_score = ? WHERE id = ?', [req.body.user_score, req.params.id],function (error, results, fields) {
+      
+      if (error) res.send(error)
+      else res.json(results);
+    
+    });
+  });
+
 app.post('/login', function(req, res) {
   var pass = md5(req.body.password)
   connection.query('SELECT * FROM users WHERE username=? AND password=?', [req.body.name, pass],  function(error, results, fields) {
