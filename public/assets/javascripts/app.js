@@ -48,15 +48,11 @@ var globalName
 
 $(document).ready(function() {
 
-<<<<<<< HEAD
   $(".fa-sign-out-alt").on("click", function() {
       logout();
   })
 
 	$("#teamSelect").on("click",function(e) {
-=======
-  $("#teamSelect").on("click",function(e) {
->>>>>>> 438e91591246124b097b8c225800f4aa4428eb16
 
     //will be used for team_id in users table
     userTeamId = $("input[name='teamName']:checked").val();
@@ -599,9 +595,9 @@ function testingFunctions() {
  #  FUNCTION NAME : getTeamId
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 11, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 15, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : asks user to select a team
  #  PARAMETERS    : none
  #
@@ -610,9 +606,8 @@ function testingFunctions() {
 
 function getTeamId() {
 
-  $("#teamModal .modal-body").load("/teams.html",function() {
-    $("#teamModal").modal("show")
-  })
+  getTeams();
+  $("#teamModal").modal("show") 
 
 }
 
@@ -763,7 +758,6 @@ function logout() {
     url: "/logout",
     method: 'GET',
   }).then(function(c) {
-      console.log(c)
       window.location.href = c
   });
 
