@@ -15,27 +15,43 @@
     <!-- CSS files -->
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 <body>
-  <div id="welcomeDiv">
-    <span>Welcome, <span id="currUser"></span>!&nbsp;</span>
-    <span data-toggle="tooltip" data-placement="bottom" title="Log Out"><i class="fas fa-sign-out-alt"></i></span>
-  </div>
+  <header class="container-fluid hmain">
+      <div class="row">
+        <div class="col-4"><span></span></div>
+        <div class="col-4 timer">TIME LEFT: <span id="countdown">10</span> seconds</div>
+        <div id="welcomeDiv" class="col-4">
+          <span>Welcome, <span id="currUser"></span>!&nbsp;</span>
+          <span data-toggle="tooltip" data-placement="bottom" title="Log Out"><i class="fas fa-sign-out-alt"></i></span>
+        </div>
+      </div>
+  </header>
   <div id="levelContainer" class="index-Border">
     
   </div>
+  <!-- for sounds -->
+  <audio id="correctAudio">
+    <source src="./assets/sounds/correct-answer.mp3" type="audio/mpeg">
+  </audio>    
+  <audio id="wrongAudio">
+    <source src="./assets/sounds/wrong-answer.wav" type="audio/wav">
+  </audio>
+  <audio id="timerAudio">
+    <source src="./assets/sounds/timer.mp3" type="audio/mpeg">
+  </audio>
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <!-- Popper.js (for Bootstrap)-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- Popper.js (for Bootstrap)-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <!-- Javascript Files-->
-    <script type="text/javascript" src="assets/javascripts/app.js"></script>
-    <script type="text/javascript">
-      getSessionInfo(1)
-      loadLevelsAndCategories()
-    </script>
+  <!-- Javascript Files-->
+  <script type="text/javascript" src="assets/javascripts/app.js"></script>
+  <script type="text/javascript">
+    getSessionInfo(1)
+    loadLevelsAndCategories()
+  </script>
 </body>
 </html>

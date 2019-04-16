@@ -28,7 +28,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'password',
   database: 'quiz_app'
 });
 
@@ -65,10 +65,34 @@ app.get('/categories', function(req, res) {
   });
 });
 
-app.get('/questions', function(req, res) {
-  connection.query('SELECT * FROM questions', function(error, results, fields) {
+// app.get('/questions', function(req, res) {
+//   connection.query('SELECT * FROM questions', function(error, results, fields) {
+//     if (error) res.send(error)
+//     else res.json(results);
+//   });
+// });
+
+app.post('/questions', function(req, res) {
+  connection.query('SELECT answers.question_id, questions.question, solutions.correct_ans_id, '+
+    'GROUP_CONCAT(answers.option_name ORDER BY answers.id SEPARATOR ", ") as options,'+
+    ' GROUP_CONCAT(answers.id ORDER BY answers.id SEPARATOR ", ") as answer_id FROM answers '+
+    'LEFT JOIN questions on questions.id=answers.question_id LEFT JOIN solutions on solutions.question_id=questions.id'+
+    ' WHERE category_levels_id IN (SELECT id FROM category_levels WHERE category_id=? AND level_id=?) GROUP BY answers.question_id,'+
+    ' solutions.correct_ans_id;', [req.body.cat_id, req.body.level_id], function(error, results, fields) {
     if (error) res.send(error)
-    else res.json(results);
+    else {
+      var resArr = []
+      for (var m = 0; m < results.length; m++) {
+        var rJSON = {}
+        rJSON["qid"] = results[m].question_id
+        rJSON["question"] = results[m].question
+        rJSON["sid"] = results[m].correct_ans_id
+        rJSON["options"] = results[m].options.split(", ")
+        rJSON["aid"] = results[m].answer_id.split(", ")
+        resArr.push(rJSON)
+      }
+      res.json(resArr)
+    };
   });
 });
 
@@ -197,7 +221,7 @@ app.get('/redirect-login', function(req, res) {
 });
 
 app.get('/get-session', function(req, res) {
-  //console.log(req.session.uname)
+  console.log(req.session.uname)
   res.send([req.session.uname,req.session.uid,req.session.tid])
 });
 

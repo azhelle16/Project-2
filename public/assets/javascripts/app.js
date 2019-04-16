@@ -46,6 +46,17 @@ var globalUserId
 //username
 var globalName
 
+//question ids array
+var qArr = []
+
+//indexes for the question array
+var ind = 0
+
+//seconds to be displayed
+var secs = "10"
+
+var rt
+
 $(document).ready(function() {
 
   $(".fa-sign-out-alt").on("click", function() {
@@ -769,9 +780,9 @@ function logout() {
  #  FUNCTION NAME : getQuestions
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 15, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 16, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : gets the questions and answers from the database
  #  PARAMETERS    : level id, category id
  #
@@ -780,6 +791,196 @@ function logout() {
 
 function getQuestions(lid, cid) {
 
+  $.ajax({
+    url: "/questions",
+    method: 'POST',
+    data: {cat_id : cid, level_id : lid},
+  }).then(function(c) {
+      $(".timer").css("visibility","visible")
+      createQuestions(c, function() {
+          showQuestions(startTimer)
+      });
+  });
   
 }
 
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : createQuestions
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : creates the questions elements
+ #  PARAMETERS    : json data, callback function
+ #
+ #######################################################################
+*/
+
+function createQuestions(data,callback) {
+
+  $("#levelContainer").load("questions.html", function() {
+
+    $("#qContainer").empty();
+
+    for (var x = 0; x < data.length; x++) {
+      // console.log(data[x].aid)
+      // console.log(data[x].options)
+      // console.log(data[x].qid)
+      // console.log(data[x].question)
+      // console.log(data[x].sid)
+      qArr.push(data[x].qid)
+      var div1 = $("<div>")
+      div1.attr("id","q"+data[x].qid)
+      div1.attr("class","dispHide divqs")
+      var h1 = $("<h1>")
+      h1.attr("class","qText")
+      h1.text("Question "+(x+1))
+      var p = $("<p>")
+      p.attr("class","questionText")
+      p.text(data[x].question)
+      var div2 = $("<div>")
+      for (var y = 0; y < data[x].options.length; y++) {
+        var oid = "option-"+data[x].aid[y]
+        var optLabel = $("<label>");
+        var optRadio = $("<input>");
+
+        optLabel.attr("for", oid)
+          .attr("class", "optLabel")
+          .html(data[x].options[y]);
+
+        optRadio.attr("type", "radio")
+          .attr("name", "options-"+(x+1))
+          .attr("id", oid)
+          .attr("value", data[x].aid[y])
+          .attr("onclick",checkAnswers(this))
+
+        if (data[x].aid[y] == data[x].sid) {
+          optRadio.attr("class","opt correct")
+        } else {
+            optRadio.attr("class","opt")
+          }
+
+        div2.append(optRadio)
+        div2.append(optLabel)
+      }
+      div1.append(h1)
+      div1.append(p)
+      div1.append(div2)
+      $("#qContainer").append(div1)
+      // console.log(x)
+    }
+  
+    callback();
+
+  })
+
+  
+  
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : showQuestions
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : shows the questions
+ #  PARAMETERS    : json data
+ #
+ #######################################################################
+*/
+
+function showQuestions(callback) {
+
+  var num = qArr[ind]
+
+  // console.log("NUM: "+num)
+  // console.log("INDEX: "+ind)
+  // console.log("qArr: "+qArr)
+
+  $(".divqs").each(function() {
+    if ($(this).attr("id") == "q"+num) {
+      $(this).removeClass("dispHide")
+    } else {
+        $(this).addClass("dispHide")
+      }
+  })
+
+  callback()
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : startTimer
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : triggers to run the timer
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function startTimer() {
+
+  rt = setInterval(runTimer,1500)
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : runTimer
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : timer countdown
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function runTimer() {
+
+  $("#countdown").empty();
+
+  var s = parseInt(secs) - 1
+  var secArr = secs.split("")
+
+  for (var j = 0; j < secArr.length; j++) {
+    var im = ""
+    if (secArr.length > 1) {
+      im = secArr[j]
+    } else {
+      im = "0"+secArr[j]
+      }
+    $("#countdown").append(im)  
+  }
+
+  if (s < 0) {
+    $("#wrongAudio").trigger("play");
+    // showCorWrongAnswers("")
+    clearInterval(rt)
+  } else {
+     if (s < 5){
+       $("#timerAudio").trigger("play");
+     }
+     secs = ""+s 
+    }
+
+}
+
+function checkAnswers() {}

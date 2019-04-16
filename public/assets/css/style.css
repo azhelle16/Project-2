@@ -22,8 +22,8 @@ html {
 	top: 50%;
 }
 
-.userLoginSignUp {
-
+.dispHide {
+	display:none;
 }
 
 @font-face {
@@ -41,7 +41,7 @@ html {
 	background-size: cover;
 	font-family: 'Georgia', Times, Times New Roman, serif;
 	text-align: center;
-	margin: 0;
+	margin: 15px;
 	overflow: auto;
 	border-radius: 20px;
 	padding: 15px;
@@ -49,13 +49,9 @@ html {
 }
 
 #welcomeDiv {
-	color: white;
-	font-family: "Vingy";
-	padding-top: 10px;
-	float: right;
-	margin-right: 20px;
+	/*float: right;*/
+	/*margin-right: 20px;*/
 	width: auto;
-	font-size: 30px;
 	text-align: right;
 }
 
@@ -63,9 +59,17 @@ html {
 	cursor: pointer;
 }
 
+.row div {
+	/*min-width: 33%;*/
+}
+
+.timer {
+	visibility: hidden;
+}
+
 /* LEVELS HTML */
 
-.catLabel, .tLabel {
+.catLabel, .tLabel, .optLabel {
 	margin-right: 2%;
 }
 
@@ -76,6 +80,30 @@ input[type="radio"] {
 strong {
 	font-family: "Vingy";
 	font-size: 30px;
+}
+
+/* QUESTIONS HTML */
+
+.qText {
+	font-family: "Vingy";
+	font-size: 60px;
+	text-shadow: 2px 2px 2px red;
+}
+
+.questionText {
+	font-size: 30px;
+	font-style: italic;
+}
+
+.optLabel {
+	font-size: 25px;
+}
+
+.hmain div {
+	font-family: "Vingy";
+	font-size: 30px;
+	color: white;
+	padding-top: 10px;
 }
 
 /* DIALOG */
