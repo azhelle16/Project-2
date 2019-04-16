@@ -197,7 +197,7 @@ app.get('/redirect-login', function(req, res) {
 });
 
 app.get('/get-session', function(req, res) {
-  console.log(req.session.uname)
+  //console.log(req.session.uname)
   res.send([req.session.uname,req.session.uid,req.session.tid])
 });
 

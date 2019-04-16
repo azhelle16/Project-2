@@ -762,3 +762,24 @@ function logout() {
   });
 
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getQuestions
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 15, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : gets the questions and answers from the database
+ #  PARAMETERS    : level id, category id
+ #
+ #######################################################################
+*/
+
+function getQuestions(lid, cid) {
+
+  
+}
+
