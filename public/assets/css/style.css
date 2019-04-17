@@ -154,6 +154,14 @@ a {
 	font-size: 200%;
 }
 
+#indexSubHeading {
+	text-align: center;
+	color: #97b400;
+	font-family: 'Vingy';
+	font-weight: bold;
+	font-size: 200%;
+}
+
 .tableBg {
 	background-image: url("../images/ep_naturalwhite.png");
 	background-repeat: repeat;
@@ -179,4 +187,32 @@ a {
 .table td{
 	font-size: 130%;
 	color: #960d28;
+}
+
+nav {
+	z-index: 2;
+}
+
+.navbar {
+	background-color: #4f0000;
+}
+.navbar a {
+	color: rgba(255,255,255,.6);
+}
+
+.active a {
+	color: #fff;
+}
+
+.navbar a:hover {
+	color: #fff;
+	cursor: pointer;
+}
+
+a:not([href]):not([tabindex]) {
+	color: #fff;
+}
+a:not([href]):not([tabindex]):hover {
+	color: rgba(255,255,255,.5);
+	cursor: pointer;
 }

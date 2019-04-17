@@ -15,16 +15,79 @@
     <!-- CSS files -->
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 <body>
-  <header class="container-fluid hmain">
+  <!-- <header class="container-fluid hmain">
       <div class="row">
         <div class="col-4"><span></span></div>
-        <div class="col-4 timer">TIME LEFT: <span id="countdown">10</span> seconds</div>
+        
         <div id="welcomeDiv" class="col-4">
           <span>Welcome, <span id="currUser"></span>!&nbsp;</span>
           <span data-toggle="tooltip" data-placement="bottom" title="Log Out"><i class="fas fa-sign-out-alt"></i></span>
         </div>
       </div>
-  </header>
+  </header> -->
+  <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg">
+  <div class="container navContainer">
+  <a class="navbar-brand" data-toggle="modal" data-target="#aboutModalMain">Triviosa</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="timer">TIME LEFT: <span id="countdown">10</span> seconds</div>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link active" href="/main.html">Topics <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="/results.html">Leaderboard</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Your Profile
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <p class="dropdown-item">Username: <span id="#usernameDropdown"></span></p>
+          <p class="dropdown-item">Rank: <span id="#rankDropdown"></span></p>
+          <p class="dropdown-item">Team: <span id="#teamDropdown"></span></p>
+          <p class="dropdown-item" id="logoutDropdown">Log Out</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  </div>
+</nav>
+
+    <!-- The Modal -->
+  <div class="modal fade" id="aboutModalMain">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">About The Game</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Jelly cake toffee. Oat cake donut biscuit I love jelly beans ice cream jujubes. Chocolate gingerbread cake dragée caramels. Fruitcake croissant brownie wafer marzipan I love.
+
+          Dessert candy canes marzipan sweet roll sesame snaps dragée macaroon powder. Bonbon sweet roll I love cupcake. Marzipan I love I love cake tootsie roll.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div id="welcomeDiv">
+    <span>Welcome, <span id="currUser"></span>!&nbsp;</span>
+    <span data-toggle="tooltip" data-placement="bottom" title="Log Out"><i class="fas fa-sign-out-alt"></i></span>
+  </div>
   <div id="levelContainer" class="index-Border">
     
   </div>
@@ -64,7 +127,7 @@
     <source src="./assets/sounds/timer.mp3" type="audio/mpeg">
   </audio>
   <!-- TESTING BUTTON FOR UPDATING SCORE AFTER SUBMITTING ANSWERS -->
-  <button id="update_score">Update Score</button>
+  <!-- <button id="update_score">Update Score</button> -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

@@ -20,9 +20,47 @@
 
   </head>
   <body>
+
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg">
+    <div class="container navContainer">
+      <a class="navbar-brand" data-toggle="modal" data-target="#aboutModal">Triviosa</a>
+    </div>
+  </nav>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="aboutModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">About The Game</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Jelly cake toffee. Oat cake donut biscuit I love jelly beans ice cream jujubes. Chocolate gingerbread cake dragée caramels. Fruitcake croissant brownie wafer marzipan I love.
+
+          Dessert candy canes marzipan sweet roll sesame snaps dragée macaroon powder. Bonbon sweet roll I love cupcake. Marzipan I love I love cake tootsie roll.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
     <div class="index-Border">
       <img src="./assets/images/title2.gif" class="img-fluid img-responsive">
-      <img src="./assets/images/tag2.png" class="img-fluid img-responsive" height=60 width="45%">
+      <!-- <img src="./assets/images/tag2.png" class="img-fluid img-responsive" height=60 width="45%"> -->
+      <h2 id="indexSubHeading">It's triviOsa not triviosAAH</h2>
+      <!-- <img src="./assets/images/tag2.png" height=60 width="45%"> -->
       <div class="userLoginSignUp w-25 mx-auto py-5">
         <form class="pb-3">
           <div class="form-group">
@@ -37,7 +75,7 @@
       </div>
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="alertModal">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <!-- <h5 class="modal-title">HOW TO PLAY</h5> -->
@@ -51,7 +89,7 @@
       </div>
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="teamModal">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <!-- <h5 class="modal-title">HOW TO PLAY</h5> -->
@@ -66,6 +104,8 @@
           </div>
         </div>
       </div>
+    </div>
+
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
