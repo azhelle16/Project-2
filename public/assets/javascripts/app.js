@@ -47,7 +47,7 @@ var globalUserId;
 var globalName;
 
 //game score of a user
-var gameScore;
+var gameScore = 0;
 
 //question ids array
 var qArr = []
@@ -59,6 +59,11 @@ var ind = 0
 var secs = "10"
 
 var rt
+
+//number of questions showed
+var qshowed = 0
+
+var num
 
 $(document).ready(function() {
 
@@ -143,6 +148,18 @@ $(document).on("click", 'button', function(e) {
     break;
     case "confirm":
       loginSignUp(0)
+    break;
+    case "log-out":
+      logout()
+    break;
+    case "select new topic":
+      gameScore = 0;
+      qArr = []
+      ind = 0
+      secs = "10"
+      qshowed = 0
+      $(".timer").addClass("dispHide")
+      loadLevelsAndCategories();
     break;
     default:
       return
@@ -346,8 +363,8 @@ function validateData() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 11, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 14, 2019 PDT
- #  REVISION #    : 2
+ #  REVISION DATE : April 16, 2019 PDT
+ #  REVISION #    : 3
  #  DESCRIPTION   : logs or signs up the user based on the flag
  #  PARAMETERS    : flag for sign up or login
  #
@@ -398,6 +415,7 @@ function loginSignUp(flag) {
                 userTeamId = c.team_id
                 globalName = c.username
                 globalUserId = c.id
+                gameScore = c.user_score
                 login()
               }
         break;
@@ -511,17 +529,24 @@ function userRanks(){
 
 function getCurrUserRank(id){
 
+  var rank
+
   $.ajax({
     url: '/user-rank/' + id,
-    method: 'GET'
-  }).then(function(r){
+    method: 'GET',
+    async: false,
+  }).done(function(r){
 
     //show this info in html after answering questions
-    console.log("Current User Rank " , r);
+    //console.log("Current User Rank " , r);
     // console.log("Current user " + r.name + " with ID " +
     //      r.id + " and score of " + r.user_score + " has rank " + r.user_rank);
 
+      rank = r
+
   });
+
+  return rank
 }
 
 /*
@@ -530,27 +555,31 @@ function getCurrUserRank(id){
  #  FUNCTION NAME : updateUserScore
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 16, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 16, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : Updates score of a user after answering questions
- #  PARAMETERS    : 
+ #  PARAMETERS    : user id, callback
  #
  #######################################################################
 */
 
-function updateUserScore(id){
+function updateUserScore(id,callback){
 
-  gameScore = 5; // temp no. 5, add logic to increase score
+  //gameScore = 5; // temp no. 5, add logic to increase score
+
+  //console.log(id+">><<<"+gameScore)
 
   $.ajax({
       url: '/score-update/' + id + '?_method=PUT',
       method: 'POST',
       data: {
         user_score : gameScore //variable for total score after answering questions
-      }
-    }).then(function(message){
-        getCurrUserRank(id);
+      },
+      async: false
+    }).done(function(message){
+        if (callback != undefined)
+          callback()
     });
 }
 
@@ -736,26 +765,46 @@ function login() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 15, 2019 PDT
- #  REVISION #    : 1
+ #  REVISION DATE : April 16, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : retrieves user information
- #  PARAMETERS    : flag
+ #  PARAMETERS    : flag, callback
  #
  #######################################################################
 */
 
-function getSessionInfo(flag) {
+function getSessionInfo(flag,callback) {
 
   $.ajax({
     url: "/get-session",
     method: 'GET',
-  }).then(function(c) {
+    async: false
+  }).done(function(c) {
+      console.log(c)
       globalUserId = c[1]
       globalName = c[0]
       userTeamId = c[2]
 
       switch (flag) {
-        case 1: $("#currUser").empty().append(globalName); break;
+        case 1: 
+          if (globalUserId == null) {
+            window.location.href="index.html"
+          } else {
+              $("#currUser").empty().append(globalName);
+              if (callback != undefined)
+                callback()
+            }
+        break;
+        case 2:
+          if (globalUserId == null) {
+            //window.location.href="index.html"
+          } else {
+              //$("#currUser").empty().append(globalName);
+              window.location.href="main.html"
+              if (callback != undefined)
+                callback()
+            }
+        break;
       }
 
   });
@@ -839,7 +888,9 @@ function getQuestions(lid, cid) {
   }).then(function(c) {
       $(".timer").css("visibility","visible")
       createQuestions(c, function() {
-          showQuestions(startTimer)
+          showQuestions(startTimer, function() {
+            initializeRadioButtons()
+          })
       });
   });
   
@@ -883,6 +934,7 @@ function createQuestions(data,callback) {
       p.attr("class","questionText")
       p.text(data[x].question)
       var div2 = $("<div>")
+      div2.attr("data-answer",data[x].sid)
       for (var y = 0; y < data[x].options.length; y++) {
         var oid = "option-"+data[x].aid[y]
         var optLabel = $("<label>");
@@ -896,12 +948,11 @@ function createQuestions(data,callback) {
           .attr("name", "options-"+(x+1))
           .attr("id", oid)
           .attr("value", data[x].aid[y])
-          .attr("onclick",checkAnswers(this))
 
         if (data[x].aid[y] == data[x].sid) {
-          optRadio.attr("class","opt correct")
+          optRadio.attr("class","opt correct cbut")
         } else {
-            optRadio.attr("class","opt")
+            optRadio.attr("class","opt cbut")
           }
 
         div2.append(optRadio)
@@ -938,9 +989,11 @@ function createQuestions(data,callback) {
  #######################################################################
 */
 
-function showQuestions(callback) {
+function showQuestions(callback,cb) {
 
-  var num = qArr[ind]
+  num = qArr[ind]
+  qshowed++
+  ind++
 
   // console.log("NUM: "+num)
   // console.log("INDEX: "+ind)
@@ -954,7 +1007,13 @@ function showQuestions(callback) {
       }
   })
 
-  callback()
+  if (callback != undefined) { 
+    callback()
+  }
+
+  if (cb != undefined) {
+    cb()
+  }
 
 }
 
@@ -975,7 +1034,8 @@ function showQuestions(callback) {
 
 function startTimer() {
 
-  rt = setInterval(runTimer,1500)
+  runTimer()
+  rt = setInterval(runTimer,1000)
 
 }
 
@@ -1013,8 +1073,7 @@ function runTimer() {
 
   if (s < 0) {
     $("#wrongAudio").trigger("play");
-    // showCorWrongAnswers("")
-    clearInterval(rt)
+    checkAnswers("")
   } else {
      if (s < 5){
        $("#timerAudio").trigger("play");
@@ -1024,4 +1083,103 @@ function runTimer() {
 
 }
 
-function checkAnswers() {}
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : checkAnswers
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : check if the selected answer is correct or wrong
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function checkAnswers(obj) {
+
+  clearInterval(rt)
+  if (obj != "") {
+    if ($(obj).hasClass("correct")) {
+      $(obj).next().addClass("correct_answer")
+      var rand = Math.ceil(Math.random() * (5 - 1) + 1);
+      $("#correctAudio").trigger("play");
+      gameScore += rand
+      // console.log(gameScore)
+    } else {
+        $(obj).next().addClass("wrong_answer")
+        var a = $(obj)[0].parentElement.dataset.answer
+        // console.log(a)
+        $("#option-"+a).next().addClass("correct_answer")
+        $("#wrongAudio").trigger("play");
+      }
+  } else {
+      var b = $("#q"+num)[0].children[2].dataset.answer
+      $("#option-"+b).next().addClass("correct_answer")
+    }
+
+  if (qshowed == qArr.length) {
+    clearInterval(rt)
+    updateUserScore(globalUserId,function(){
+      showResults();
+    })
+  } else {
+      secs = "10"
+      setTimeout(function() {
+        startTimer()
+        showQuestions()
+        //$("#countdown").empty().append(secs)
+      },1000)
+      
+    }
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : initializeRadioButtons
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : initialize onclick functionality of the radiobuttons
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function initializeRadioButtons() {
+
+  $(".cbut").on("click",function() {
+    checkAnswers($(this))
+  })
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : showResults
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 16, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : initialize onclick functionality of the radiobuttons
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function showResults() {
+
+  $("#uscore").text(gameScore)
+  //console.log(getCurrUserRank(globalUserId))
+  var b = getCurrUserRank(globalUserId)
+  $("#urank").text(b.user_rank)
+  $("#resultsModal").modal("show")
+}

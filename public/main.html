@@ -28,6 +28,31 @@
   <div id="levelContainer" class="index-Border">
     
   </div>
+  <div class="modal" tabindex="-1" role="dialog" id="resultsModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <h5 class="modal-title">HOW TO PLAY</h5> -->
+            <h5 class="modal-title">YOUR RESULTS</h5>
+          </div>
+          <div class="modal-body">
+            <div id="resultsDiv" class="text-justify">
+              <h3>SCORE: <span id="uscore"></span></h3>
+              <h3>CURRENT RANK: <span id="urank"></span></h3>
+              <h3>CURRENT TEAM RANK: <span id="trank"></span></h3>
+              <br>
+              <p>What do you want to do next?</p>
+              <br>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">SELECT NEW TOPIC</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">LOG-OUT</button>
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">LOG-OUT</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
   <!-- for sounds -->
   <audio id="correctAudio">
     <source src="./assets/sounds/correct-answer.mp3" type="audio/mpeg">
@@ -52,8 +77,8 @@
   <!-- Javascript Files-->
   <script type="text/javascript" src="assets/javascripts/app.js"></script>
   <script type="text/javascript">
-    getSessionInfo(1)
-    loadLevelsAndCategories()
+    getSessionInfo(1,loadLevelsAndCategories)
+    //loadLevelsAndCategories()
   </script>
 </body>
 </html>

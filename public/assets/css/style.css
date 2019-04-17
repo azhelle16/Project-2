@@ -107,9 +107,17 @@ strong {
 	padding-top: 10px;
 }
 
+.correct_answer {
+	color: green;
+}
+
+.wrong_answer {
+	color: red;
+}
+
 /* DIALOG */
 
-.modal-header, #modalAlertBtn, #modalTeamBtn {
+.modal-header, #modalAlertBtn, #modalTeamBtn, .modal-footer button.btn-primary {
 	background-color: #A96B62;
 	color: white;
 }
@@ -124,6 +132,15 @@ strong {
 	transform: translate(-50%, -50%);	
 	left: 50%;
 	top: 50%;
+}
+
+#resultsDiv {
+	font-family: "Vingy";
+}
+
+#urank, #uscore, #trank {
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	color: #DC143C;
 }
 
 a {
