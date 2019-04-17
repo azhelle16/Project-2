@@ -66,6 +66,10 @@ html {
 
 .timer {
 	visibility: hidden;
+	color: #ffec00;
+	text-align: center;
+	margin-top: 2%;
+	font-size: 120%;
 }
 
 /* LEVELS HTML */
@@ -215,4 +219,9 @@ a:not([href]):not([tabindex]) {
 a:not([href]):not([tabindex]):hover {
 	color: rgba(255,255,255,.5);
 	cursor: pointer;
+}
+
+div.dropdown-menu {
+	background-color: #FFF6BF;
+	opacity: 0.9;
 }
