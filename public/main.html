@@ -46,9 +46,9 @@
           Your Profile
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <p class="dropdown-item">Username: <span id="#usernameDropdown"></span></p>
-          <p class="dropdown-item">Rank: <span id="#rankDropdown"></span></p>
-          <p class="dropdown-item">Team: <span id="#teamDropdown"></span></p>
+          <p class="dropdown-item pUname">Username: <span id="#usernameDropdown"></span></p>
+          <p class="dropdown-item prank">Rank: <span id="#rankDropdown"></span></p>
+          <p class="dropdown-item pteam">Team: <span id="#teamDropdown"></span></p>
           <p class="dropdown-item" id="logoutDropdown">Log Out</p>
         </div>
       </li>
@@ -89,7 +89,7 @@
     <span data-toggle="tooltip" data-placement="bottom" title="Log Out"><i class="fas fa-sign-out-alt"></i></span>
   </div>
   <div id="levelContainer" class="index-Border">
-    
+    <!-- this is where the questions and other main pages are loaded -->
   </div>
   <div class="modal" tabindex="-1" role="dialog" id="resultsModal">
       <div class="modal-dialog" role="document">
@@ -104,13 +104,13 @@
               <h3>CURRENT RANK: <span id="urank"></span></h3>
               <h3>CURRENT TEAM RANK: <span id="trank"></span></h3>
               <br>
-              <p>What do you want to do next?</p>
+              <p>Do you want to play again?</p>
               <br>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">SELECT NEW TOPIC</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">LOG-OUT</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">YES</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">LOG-OUT</button> -->
           </div>
         </div>

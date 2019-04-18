@@ -28,7 +28,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'password',
   database: 'quiz_app'
 });
 
@@ -138,7 +138,9 @@ app.put('/score-update/:id', function(req, res){
 
 app.post('/login', function(req, res) {
   var pass = md5(req.body.password)
-  connection.query('SELECT * FROM users WHERE username=? AND password=?', [req.body.name, pass],  function(error, results, fields) {
+  connection.query('SELECT u.id, u.username, u.password, u.role, u.team_id, u.user_score, t.team_name FROM '+
+    'users u LEFT JOIN teams t ON u.id=t.id WHERE username=? AND password=?', 
+    [req.body.name, pass],  function(error, results, fields) {
     if (error) res.send({error : error})
     // else res.json({id : results.insertId});
     else if (results.length == 0) {
@@ -147,6 +149,7 @@ app.post('/login', function(req, res) {
         req.session.uname = req.body.name
         req.session.uid = results[0].id
         req.session.tid = results[0].team_id
+        req.session.tname= results[0].team_name
         res.json(results);
       }
   });

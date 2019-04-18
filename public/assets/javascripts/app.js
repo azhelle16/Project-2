@@ -67,7 +67,7 @@ var num
 
 $(document).ready(function() {
 
-  $(".fa-sign-out-alt").on("click", function() {
+  $(".fa-sign-out-alt, #logoutDropdown").on("click", function() {
       logout();
   })
 
@@ -81,28 +81,31 @@ $(document).ready(function() {
   });
 
 
-  $("#topicSelect").on("click",function(e) {
+  // $("#topicSelect").on("click",function(e) {
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    //checked category value
-    selectedCatValue = $("input[name='category']:checked").val();
+  //   //checked category value
+  //   selectedCatValue = $("input[name='category']:checked").val();
 
-    //checked category element
-    selectedCat = $("input[name='category']:checked");
+  //   //checked category element
+  //   selectedCat = $("input[name='category']:checked");
 
-    //checked category's level
-    selectedLevel = selectedCat[0].parentElement.id;
+  //   //checked category's level
+  //   selectedLevel = selectedCat[0].parentElement.id;
 
-	  //console.log(selectedLevel.split("level")[0]);
-	  // console.log(selectedCatValue);
-    getQuestions(selectedLevel.split("level")[0],selectedCatValue)
+	 //  //console.log(selectedLevel.split("level")[0]);
+	 //  // console.log(selectedCatValue);
+  //   console.log("here")
+  //   getQuestions(selectedLevel.split("level")[0],selectedCatValue)
 
-  });
+  // });
 
   //button for clicking submit for answers
   $('#update_score').on("click",function(e) {
 
+
+    console.log("hello")
     updateUserScore(globalUserId);
 
   });
@@ -149,10 +152,7 @@ $(document).on("click", 'button', function(e) {
     case "confirm":
       loginSignUp(0)
     break;
-    case "log-out":
-      logout()
-    break;
-    case "select new topic":
+    case "yes":
       gameScore = 0;
       qArr = []
       ind = 0
@@ -160,6 +160,23 @@ $(document).on("click", 'button', function(e) {
       qshowed = 0
       $(".timer").addClass("dispHide")
       loadLevelsAndCategories();
+    break;
+    case "submit":
+      e.preventDefault();
+
+      //checked category value
+      selectedCatValue = $("input[name='category']:checked").val();
+
+      //checked category element
+      selectedCat = $("input[name='category']:checked");
+
+      //checked category's level
+      selectedLevel = selectedCat[0].parentElement.id;
+
+      //console.log(selectedLevel.split("level")[0]);
+      // console.log(selectedCatValue);
+      console.log("here")
+      getQuestions(selectedLevel.split("level")[0],selectedCatValue)
     break;
     default:
       return
@@ -766,7 +783,7 @@ function login() {
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
  #  REVISION DATE : April 16, 2019 PDT
- #  REVISION #    : 2
+ #  REVISION #    : 3
  #  DESCRIPTION   : retrieves user information
  #  PARAMETERS    : flag, callback
  #
@@ -790,7 +807,11 @@ function getSessionInfo(flag,callback) {
           if (globalUserId == null) {
             window.location.href="index.html"
           } else {
-              $("#currUser").empty().append(globalName);
+              //$("#currUser").empty().append(globalName);
+              $(".pUname span").text(globalName)
+              var x = getCurrUserRank(globalUserId)
+              $(".prank span").text(x.user_rank)
+              $(".pteam span").text("")
               if (callback != undefined)
                 callback()
             }
@@ -828,7 +849,7 @@ function getSessionInfo(flag,callback) {
 
 function loadLevelsAndCategories() {
 
-  $("#levelContainer").load("levels.html", function() {
+  $("#levelContainer").empty().load("levels.html", function() {
     getLevels();
   })
 
