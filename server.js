@@ -191,7 +191,7 @@ app.get('/user-rank/:user_id',function(req, res) {
   });
 });
 
-//displays teams rankwise
+//displays teams rankwise and no. of players per team
 app.get('/team-ranks', function(req, res) {
 
   const teamRanks =`SELECT DENSE_RANK() OVER (
@@ -199,7 +199,8 @@ app.get('/team-ranks', function(req, res) {
                     ) Team_Rank,
                     teams.team_name AS Team_Name, 
                     teams.id AS Team_ID, 
-                    SUM(user_score) AS Team_Score
+                    SUM(user_score) AS Team_Score,
+                    COUNT(users.team_id) AS No_Of_Players
                     FROM users
                     LEFT JOIN teams
                     ON users.team_id = teams.id
@@ -209,6 +210,29 @@ app.get('/team-ranks', function(req, res) {
   connection.query(teamRanks,function(error, results, fields) {
     if (error) res.send(error)
     else res.json(results);
+  });
+});
+
+//gets current user's team's rank
+app.get('/team-rank/:user_id',function(req, res) {
+
+  const userTeamRank = `SELECT users.id , teamRanks.Team_Rank FROM users LEFT JOIN(
+                        SELECT DENSE_RANK() OVER (
+                          ORDER BY SUM(user_score) DESC
+                          ) Team_Rank,
+                        teams.team_name AS Team_Name, 
+                        teams.id AS Team_ID
+                        FROM users
+                        LEFT JOIN teams
+                        ON users.team_id = teams.id
+                        GROUP BY users.team_id
+                        ORDER BY SUM(user_score) DESC)teamRanks
+                        ON users.team_id = teamRanks.Team_ID
+                        WHERE users.id = ?`
+
+  connection.query(userTeamRank,[req.params.user_id],function(error, results, fields) {
+    if (error) res.send(error)
+    else res.send(results[0]);
   });
 });
 

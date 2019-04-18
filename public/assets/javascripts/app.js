@@ -77,7 +77,7 @@ $(document).ready(function() {
       logout();
   })
 
-	$("#teamSelect").on("click",function(e) {
+  $("#teamSelect").on("click",function(e) {
 
     //will be used for team_id in users table
     userTeamId = $("input[name='teamName']:checked").val();
@@ -549,6 +549,41 @@ function getCurrUserRank(id){
 /*
  #######################################################################
  #
+ #  FUNCTION NAME : currUserTeamRank
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 17, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : returns user's id and team's rank
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function currUserTeamRank(id){
+
+  var trank;
+
+  $.ajax({
+    url: '/team-rank/' + id,
+    method: 'GET',
+    async: false,
+  }).done(function(tr){
+
+    //returns user's id and team's rank
+    console.log(tr);
+    
+    trank = tr;
+
+  });
+
+  return trank;
+}
+
+/*
+ #######################################################################
+ #
  #  FUNCTION NAME : updateUserScore
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 16, 2019 PDT
@@ -587,9 +622,9 @@ function updateUserScore(id,callback){
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 13, 2019 PDT
  #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
- #  DESCRIPTION   : returns all teams' ranks
+ #  REVISION DATE : April 17, 2019 PDT
+ #  REVISION #    : 1
+ #  DESCRIPTION   : returns all teams' ranks and no. of players per team
  #  PARAMETERS    : 
  #
  #######################################################################
@@ -600,11 +635,12 @@ function teamRanks(){
   var table = $('<table>').addClass('table table-striped table-bordered');      
   var thead = $('<thead>').addClass('thead-dark');  
   var tr = $('<tr>');        
-  var thTeam = $('<th>').text('Team Name');  
+  var thTeam = $('<th>').text('Team Name');
+  var thPlayers = $('<th>').text('Players');
   var thScore = $('<th>').text('Score');
   var thRank = $('<th>').text('Rank');
 
-  tr.append(thTeam, thScore, thRank);
+  tr.append(thTeam, thPlayers, thScore, thRank);
   thead.append(tr);             
   table.append(thead);
 
@@ -621,10 +657,11 @@ function teamRanks(){
 
       var tr = $('<tr>');
       var tdTeam = $('<td>').text(t[i].Team_Name);
+      var tdPlayers = $('<td>').text(t[i].No_Of_Players);
       var tdScore = $('<td>').text(t[i].Team_Score);
       var tdRank = $('<td>').text(t[i].Team_Rank);
 
-      tr.append(tdTeam, tdScore, tdRank);
+      tr.append(tdTeam, tdPlayers, tdScore, tdRank);
       tbody.append(tr);
       table.append(tbody);
       $('#teamRanksDiv').append(table);
@@ -664,6 +701,8 @@ function testingFunctions() {
     // getCurrUserRank(globalUserId);
 
     teamRanks();
+
+    currUserTeamRank(globalUserId);
 }
 
 
@@ -942,6 +981,7 @@ function createQuestions(data,callback) {
         var oid = "option-"+data[x].aid[y]
         var optLabel = $("<label>");
         var optRadio = $("<input>");
+        var optDiv = $("<div>");
 
         optLabel.attr("for", oid)
           .attr("class", "optLabel")
@@ -957,9 +997,11 @@ function createQuestions(data,callback) {
         } else {
             optRadio.attr("class","opt cbut")
           }
-
-        div2.append(optRadio)
-        div2.append(optLabel)
+        optDiv.append(optRadio)
+        optDiv.append(optLabel)
+        div2.append(optDiv)
+        // div2.append(optRadio)
+        // div2.append(optLabel)
       }
       div1.append(h1)
       div1.append(p)
