@@ -139,7 +139,7 @@ app.put('/score-update/:id', function(req, res){
 app.post('/login', function(req, res) {
   var pass = md5(req.body.password)
   connection.query('SELECT u.id, u.username, u.password, u.role, u.team_id, u.user_score, t.team_name FROM '+
-    'users u LEFT JOIN teams t ON u.id=t.id WHERE username=? AND password=?', 
+    'users u LEFT JOIN teams t ON u.team_id=t.id WHERE username=? AND password=?', 
     [req.body.name, pass],  function(error, results, fields) {
     if (error) res.send({error : error})
     // else res.json({id : results.insertId});
@@ -151,7 +151,7 @@ app.post('/login', function(req, res) {
         req.session.tid = results[0].team_id
         req.session.tname= results[0].team_name
         req.session.uscore = results[0].user_score
-        console.log(results)
+        //console.log(results)
         res.json(results);
       }
   });
