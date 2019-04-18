@@ -68,6 +68,9 @@ var num
 //team name
 var teamName 
 
+//user score
+var globalScore
+
 $(document).ready(function() {
 
   $(".fa-sign-out-alt, .logoutDropdown").on("click", function() {
@@ -407,7 +410,7 @@ function loginSignUp(flag) {
                 userTeamId = c.team_id
                 globalName = c.username
                 globalUserId = c.id
-                gameScore = c.user_score
+                globalScore = c.user_score
                 teamName = c.team_name
                 login()
               }
@@ -773,11 +776,12 @@ function getSessionInfo(flag,callback) {
     method: 'GET',
     async: false
   }).done(function(c) {
-      console.log(c)
+      //console.log(c)
       globalUserId = c[1]
       globalName = c[0]
       userTeamId = c[2]
       teamName = c[3]
+      globalScore = c[4]
 
       switch (flag) {
         case 1: 
@@ -869,8 +873,8 @@ function logout() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 15, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 16, 2019 PDT
- #  REVISION #    : 1
+ #  REVISION DATE : April 17, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : gets the questions and answers from the database
  #  PARAMETERS    : level id, category id
  #
@@ -884,7 +888,7 @@ function getQuestions(lid, cid) {
     method: 'POST',
     data: {cat_id : cid, level_id : lid},
   }).then(function(c) {
-      $(".timer").css("visibility","visible")
+      $(".timer").css("visibility","visible").removeClass("dispHide")
       createQuestions(c, function() {
           showQuestions(startTimer, function() {
             initializeRadioButtons()
@@ -989,6 +993,7 @@ function createQuestions(data,callback) {
 
 function showQuestions(callback,cb) {
 
+  //console.log("CURR SCORE: "+gameScore)
   num = qArr[ind]
   qshowed++
   ind++
@@ -1087,22 +1092,28 @@ function runTimer() {
  #  FUNCTION NAME : checkAnswers
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 17, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : check if the selected answer is correct or wrong
- #  PARAMETERS    : none
+ #  PARAMETERS    : radio button
  #
  #######################################################################
 */
 
 function checkAnswers(obj) {
 
+  var levObj = selectedLevel.split("level")[0]
   clearInterval(rt)
   if (obj != "") {
     if ($(obj).hasClass("correct")) {
       $(obj).next().addClass("correct_answer")
-      var rand = Math.ceil(Math.random() * (5 - 1) + 1);
+      
+      switch (levObj) {
+        case "1": var rand = Math.ceil(Math.random() * (5 - 1) + 1); break;
+        case "2": var rand = Math.ceil(Math.random() * (10 - 5) + 5); break;
+      }
+      //console.log(rand+">>><<<"+levObj)
       $("#correctAudio").trigger("play");
       gameScore += rand
       // console.log(gameScore)

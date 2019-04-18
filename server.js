@@ -128,7 +128,7 @@ app.post('/availability', function(req, res) {
 });
 
 app.put('/score-update/:id', function(req, res){
-    connection.query('UPDATE users SET user_score = ? WHERE id = ?', [req.body.user_score, req.params.id],function (error, results, fields) {
+    connection.query('UPDATE users SET user_score = user_score + ? WHERE id = ?', [req.body.user_score, req.params.id],function (error, results, fields) {
       
       if (error) res.send(error)
       else res.json(results);
@@ -150,6 +150,7 @@ app.post('/login', function(req, res) {
         req.session.uid = results[0].id
         req.session.tid = results[0].team_id
         req.session.tname= results[0].team_name
+        req.session.uscore = results[0].user_score
         console.log(results)
         res.json(results);
       }
@@ -235,7 +236,7 @@ app.get('/redirect-login', function(req, res) {
 
 app.get('/get-session', function(req, res) {
   console.log(req.session.uname)
-  res.send([req.session.uname,req.session.uid,req.session.tid,req.session.tname])
+  res.send([req.session.uname,req.session.uid,req.session.tid,req.session.tname,req.session.uscore])
 });
 
 app.get('/logout', function(req, res){
