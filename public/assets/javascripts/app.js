@@ -65,9 +65,12 @@ var qshowed = 0
 
 var num
 
+//team name
+var teamName 
+
 $(document).ready(function() {
 
-  $(".fa-sign-out-alt, #logoutDropdown").on("click", function() {
+  $(".fa-sign-out-alt, .logoutDropdown").on("click", function() {
       logout();
   })
 
@@ -80,31 +83,8 @@ $(document).ready(function() {
 
   });
 
-
-  // $("#topicSelect").on("click",function(e) {
-
-  //   e.preventDefault();
-
-  //   //checked category value
-  //   selectedCatValue = $("input[name='category']:checked").val();
-
-  //   //checked category element
-  //   selectedCat = $("input[name='category']:checked");
-
-  //   //checked category's level
-  //   selectedLevel = selectedCat[0].parentElement.id;
-
-	 //  //console.log(selectedLevel.split("level")[0]);
-	 //  // console.log(selectedCatValue);
-  //   console.log("here")
-  //   getQuestions(selectedLevel.split("level")[0],selectedCatValue)
-
-  // });
-
   //button for clicking submit for answers
   $('#update_score').on("click",function(e) {
-
-
     console.log("hello")
     updateUserScore(globalUserId);
 
@@ -135,19 +115,7 @@ $(document).on("click", 'button', function(e) {
         }
     break;
     case "login":
-      var isOK = validateData();
-      if (isOK) {
-        var avail = checkAvailability() 
-
-        if (avail == 0) {
-          loginSignUp(1)
-        } else {
-            alertMsg("Username does not exist")
-            return
-          }
-      } else {
-          return
-        }
+      userLogin()
     break;
     case "confirm":
       loginSignUp(0)
@@ -175,7 +143,7 @@ $(document).on("click", 'button', function(e) {
 
       //console.log(selectedLevel.split("level")[0]);
       // console.log(selectedCatValue);
-      console.log("here")
+      //console.log("here")
       getQuestions(selectedLevel.split("level")[0],selectedCatValue)
     break;
     default:
@@ -183,6 +151,13 @@ $(document).on("click", 'button', function(e) {
     break;
   }
 
+})
+
+$(document).on("keypress",function(event){
+
+  if (event.keyCode == 13)
+    userLogin()
+ 
 })
 
 /*
@@ -433,6 +408,7 @@ function loginSignUp(flag) {
                 globalName = c.username
                 globalUserId = c.id
                 gameScore = c.user_score
+                teamName = c.team_name
                 login()
               }
         break;
@@ -801,6 +777,7 @@ function getSessionInfo(flag,callback) {
       globalUserId = c[1]
       globalName = c[0]
       userTeamId = c[2]
+      teamName = c[3]
 
       switch (flag) {
         case 1: 
@@ -811,7 +788,7 @@ function getSessionInfo(flag,callback) {
               $(".usernameDropdown").text(globalName)
               var x = getCurrUserRank(globalUserId)
               $(".rankDropdown").text(x.user_rank)
-              $(".teamDropdown").text("")
+              $(".teamDropdown").text(teamName)
               if (callback != undefined)
                 callback()
             }
@@ -1203,4 +1180,37 @@ function showResults() {
   var b = getCurrUserRank(globalUserId)
   $("#urank").text(b.user_rank)
   $("#resultsModal").modal("show")
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : userLogin
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : April 17, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : checks data and allows the user to login
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function userLogin() {
+
+  var isOK = validateData();
+  if (isOK) {
+    var avail = checkAvailability() 
+
+    if (avail == 0) {
+      loginSignUp(1)
+    } else {
+        alertMsg("Username does not exist")
+        return
+      }
+  } else {
+      return
+    }
+
 }

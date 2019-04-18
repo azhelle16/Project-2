@@ -28,7 +28,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'password',
+  password: '',
   database: 'quiz_app'
 });
 
@@ -235,7 +235,7 @@ app.get('/redirect-login', function(req, res) {
 
 app.get('/get-session', function(req, res) {
   console.log(req.session.uname)
-  res.send([req.session.uname,req.session.uid,req.session.tid])
+  res.send([req.session.uname,req.session.uid,req.session.tid,req.session.tname])
 });
 
 app.get('/logout', function(req, res){
