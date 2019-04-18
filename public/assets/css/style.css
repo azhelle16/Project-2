@@ -156,14 +156,15 @@ a {
 	color: #e8ba00;
 	font-family: 'Vingy';
 	font-size: 200%;
+	margin-top: 2%;
 }
 
 #indexSubHeading {
 	text-align: center;
-	color: #97b400;
-	font-family: 'Vingy';
+	color: #fff6bf;
+	font-family: "Lucida Console", Monaco, monospace;
 	font-weight: bold;
-	font-size: 200%;
+	font-size: 180%;
 }
 
 .tableBg {
@@ -180,7 +181,7 @@ a {
 }
 
 .resultsContainer {
-	margin-top: 4%;
+	margin-top: 2%;
 	font-size: 110%;	
 }
 
