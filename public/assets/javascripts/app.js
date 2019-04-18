@@ -77,7 +77,7 @@ $(document).ready(function() {
       logout();
   })
 
-	$("#teamSelect").on("click",function(e) {
+  $("#teamSelect").on("click",function(e) {
 
     //will be used for team_id in users table
     userTeamId = $("input[name='teamName']:checked").val();
@@ -981,6 +981,7 @@ function createQuestions(data,callback) {
         var oid = "option-"+data[x].aid[y]
         var optLabel = $("<label>");
         var optRadio = $("<input>");
+        var optDiv = $("<div>");
 
         optLabel.attr("for", oid)
           .attr("class", "optLabel")
@@ -996,9 +997,11 @@ function createQuestions(data,callback) {
         } else {
             optRadio.attr("class","opt cbut")
           }
-
-        div2.append(optRadio)
-        div2.append(optLabel)
+        optDiv.append(optRadio)
+        optDiv.append(optLabel)
+        div2.append(optDiv)
+        // div2.append(optRadio)
+        // div2.append(optLabel)
       }
       div1.append(h1)
       div1.append(p)
