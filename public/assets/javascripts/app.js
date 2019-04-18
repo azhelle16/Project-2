@@ -358,8 +358,8 @@ function validateData() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 11, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 16, 2019 PDT
- #  REVISION #    : 3
+ #  REVISION DATE : April 17, 2019 PDT
+ #  REVISION #    : 4
  #  DESCRIPTION   : logs or signs up the user based on the flag
  #  PARAMETERS    : flag for sign up or login
  #
@@ -395,7 +395,8 @@ function loginSignUp(flag) {
           } else {
               alertMsg("Account Successfully Created!!!");
               globalUserId = c.id
-
+              $("#username").val("")
+              $("#password").val("")
               //functions to be executed after signUp/logIn 
               //are called inside testingFunctions
               testingFunctions();
