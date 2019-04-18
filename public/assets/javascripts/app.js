@@ -782,8 +782,8 @@ function login() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 16, 2019 PDT
- #  REVISION #    : 3
+ #  REVISION DATE : April 17, 2019 PDT
+ #  REVISION #    : 4
  #  DESCRIPTION   : retrieves user information
  #  PARAMETERS    : flag, callback
  #
@@ -808,10 +808,10 @@ function getSessionInfo(flag,callback) {
             window.location.href="index.html"
           } else {
               //$("#currUser").empty().append(globalName);
-              $(".pUname span").text(globalName)
+              $(".usernameDropdown").text(globalName)
               var x = getCurrUserRank(globalUserId)
-              $(".prank span").text(x.user_rank)
-              $(".pteam span").text("")
+              $(".rankDropdown").text(x.user_rank)
+              $(".teamDropdown").text("")
               if (callback != undefined)
                 callback()
             }

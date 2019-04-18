@@ -146,10 +146,11 @@ app.post('/login', function(req, res) {
     else if (results.length == 0) {
         res.json({message: "Username and Password doesn't match!"})
     } else {
-        req.session.uname = req.body.name
+        req.session.uname = results[0].username
         req.session.uid = results[0].id
         req.session.tid = results[0].team_id
         req.session.tname= results[0].team_name
+        console.log(results)
         res.json(results);
       }
   });
