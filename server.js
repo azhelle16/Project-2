@@ -75,6 +75,25 @@ app.get('/categories', function(req, res) {
   });
 });
 
+app.get('/level-cats', function(req, res) {
+
+  const lvlCat = `SELECT levels.id AS Level_Id,
+                  GROUP_CONCAT(
+                    CONCAT_WS(',',categories.id, categories.category_name)SEPARATOR '; '
+                      ) AS Categories
+                  FROM levels
+                  LEFT JOIN category_levels
+                  ON levels.id = category_levels.level_id
+                  LEFT JOIN categories
+                  ON category_levels.category_id = categories.id
+                  GROUP BY levels.id`
+
+  connection.query(lvlCat, function(error, results, fields) {
+    if (error) res.send(error)
+    else res.json(results);
+  });
+});
+
 // app.get('/questions', function(req, res) {
 //   connection.query('SELECT * FROM questions', function(error, results, fields) {
 //     if (error) res.send(error)
