@@ -1,6 +1,6 @@
-#Triviosa
+# Triviosa
 
-##Description
+## Description
 
 Triviosa is a single-player trivia game. The user has two options of level to choose from: _Easy_ and _Difficult_.
 
@@ -10,7 +10,7 @@ Each user is binded to a team upon signing-up in the game.
 
 This game was developed as part of the completion for the UC Berkeley Coding Bootcamp Program
 
-##Packages Used
+## Packages Used
 
 Require - _https://www.npmjs.com/package/require_
 
@@ -30,9 +30,9 @@ Cookie Parser
 
 MD5
 
-##Screenshots
+## Screenshots
 
-##Credits
+## Credits
 
 www.flamingtext.com - for the logo images
 
