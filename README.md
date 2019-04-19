@@ -37,3 +37,5 @@ MD5
 www.flamingtext.com - for the logo images
 
 www.orangefreesounds.com - for the sounds used for this game
+
+https://www.triviaquestionss.com/ - for the questions used in the game

@@ -165,11 +165,11 @@ strong {
 	top: 50%;
 }
 
-#resultsDiv {
+#resultsDiv, #quizResults {
 	font-family: "Vingy";
 }
 
-#urank, #uscore, #trank {
+.urank, .uscore, .trank {
 	font-family: 'Georgia', Times, Times New Roman, serif;
 	color: #DC143C;
 }

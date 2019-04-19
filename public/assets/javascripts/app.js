@@ -149,6 +149,12 @@ $(document).on("click", 'button', function(e) {
       //console.log("here")
       getQuestions(selectedLevel.split("level")[0],selectedCatValue)
     break;
+    case "no":
+      $(".timer").addClass("dispHide")
+      $("#levelContainer").empty().load("quizResults.html",function() {
+        showResults(0)
+      })
+    break;
     default:
       return
     break;
@@ -515,9 +521,9 @@ function userRanks(){
  #  FUNCTION NAME : getCurrUserRank
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 13, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 18, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : returns rank of logged-in user
  #  PARAMETERS    : 
  #
@@ -801,8 +807,8 @@ function login() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 17, 2019 PDT
- #  REVISION #    : 4
+ #  REVISION DATE : April 18, 2019 PDT
+ #  REVISION #    : 5
  #  DESCRIPTION   : retrieves user information
  #  PARAMETERS    : flag, callback
  #
@@ -832,6 +838,8 @@ function getSessionInfo(flag,callback) {
               $(".usernameDropdown").text(globalName)
               var x = getCurrUserRank(globalUserId)
               $(".rankDropdown").text(x.user_rank)
+              var y = currUserTeamRank(globalUserId)
+              $(".teamRankDropdown").text(y.Team_Rank)
               $(".teamDropdown").text(teamName)
               if (callback != undefined)
                 callback()
@@ -1136,8 +1144,8 @@ function runTimer() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 17, 2019 PDT
- #  REVISION #    : 1
+ #  REVISION DATE : April 18, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : check if the selected answer is correct or wrong
  #  PARAMETERS    : radio button
  #
@@ -1175,7 +1183,7 @@ function checkAnswers(obj) {
   if (qshowed == qArr.length) {
     clearInterval(rt)
     updateUserScore(globalUserId,function(){
-      showResults();
+      showResults(1);
     })
   } else {
       secs = "10"
@@ -1218,22 +1226,26 @@ function initializeRadioButtons() {
  #  FUNCTION NAME : showResults
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 18, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : initialize onclick functionality of the radiobuttons
- #  PARAMETERS    : none
+ #  PARAMETERS    : flag
  #
  #######################################################################
 */
 
-function showResults() {
+function showResults(flag) {
 
-  $("#uscore").text(gameScore)
+  $(".uscore").text(gameScore)
   //console.log(getCurrUserRank(globalUserId))
   var b = getCurrUserRank(globalUserId)
-  $("#urank").text(b.user_rank)
-  $("#resultsModal").modal("show")
+  $(".urank").text(b.user_rank)
+  var y = currUserTeamRank(globalUserId)
+  $(".teamRankDropdown").text(y.Team_Rank)
+  $(".trank").text(y.Team_Rank)
+  if (flag == 1)
+    $("#resultsModal").modal("show")
 }
 
 /*
