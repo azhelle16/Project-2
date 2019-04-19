@@ -24,13 +24,19 @@ app.use(session({ secret: 'app', cookie: { maxAge: 1*1000*60*60*24*365 }}));
 app.use(cparser());
 
 var mysql = require('mysql');
+var connection
 
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'quiz_app'
-});
+if (process.env.JAWSDB_URL) {
+  connection = mysql.createConnection(process.env.JAWSDB_URL)
+
+} else {
+  connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'quiz_app'
+  });
+}
 
 //console.log(process.env.DB_HOST)
 
