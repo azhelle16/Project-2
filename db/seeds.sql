@@ -374,3 +374,4 @@ INSERT INTO solutions (question_id, correct_ans_id) VALUES
 -- (49,187),
 -- (50,190);
 
+-- heroku addons:create jawsdb:kitefin -a ucb-quiz-app --version=8.0
