@@ -77,10 +77,10 @@ app.get('/categories', function(req, res) {
 
 app.get('/level-cats', function(req, res) {
 
-  const lvlCat = `SELECT levels.id AS Level_Id,
+  const lvlCat = `SELECT levels.id AS Level_Id, levels.level_name,
                   GROUP_CONCAT(
-                    CONCAT_WS(',',categories.id, categories.category_name)SEPARATOR '; '
-                      ) AS Categories
+                    CONCAT_WS(',',categories.id, categories.category_name) ORDER BY categories.id SEPARATOR '; '
+                    ) AS Categories
                   FROM levels
                   LEFT JOIN category_levels
                   ON levels.id = category_levels.level_id
@@ -296,7 +296,7 @@ app.get('/team-score', function(req, res) {
 });
 
 app.get('/redirect-login', function(req, res) {
-  res.send("main.html")
+  res.send("./assets/html/main.html")
 });
 
 app.get('/get-session', function(req, res) {
@@ -306,10 +306,11 @@ app.get('/get-session', function(req, res) {
 
 app.get('/logout', function(req, res) {
   req.session.destroy(function(err) {
-    res.send('index.html')
+    res.send('../../index.html')
   })
 })
 
 app.listen(process.env.PORT || 3001, function() {
-  console.log('listening on 3001');
+  var port = process.env.PORT || 3001
+  console.log('listening on '+port);
 });

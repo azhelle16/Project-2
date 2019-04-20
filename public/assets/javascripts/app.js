@@ -235,9 +235,9 @@ function getTeams() {
  #  FUNCTION NAME : getLevels
  #  AUTHOR        : Juthika Shetye
  #  DATE          : 
- #  MODIFIED BY   : Juthika Shetye
- #  REVISION DATE : April 11, 2019 PDT
- #  REVISION #    : 2
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 3
  #  DESCRIPTION   : retrieves level information from the database
  #  PARAMETERS    : none
  #
@@ -247,14 +247,16 @@ function getTeams() {
 function getLevels() {
 
   $.ajax({
-    url: "/levels",
+    url: "/level-cats",
     method: 'GET'
   }).then(function(l) {
+
+    // console.log(l)
 
     for (var levelIndex in l) {
 
       //made var levelNum for creating unique id
-      levelNum = l[levelIndex].id + "level" + levelIndex
+      levelNum = l[levelIndex].Level_Id + "level" + levelIndex
 
       levelPara = $("<p>");
 
@@ -263,7 +265,9 @@ function getLevels() {
         .attr("id", levelNum);
 
       $("#topicsDiv").append(levelPara);
-      getCategories(levelNum);
+      var cats = l[levelIndex].Categories.split("; ")
+      getCategories(levelNum,cats);
+  
     }
   
   });
@@ -276,44 +280,39 @@ function getLevels() {
  #  AUTHOR        : Juthika Shetye
  #  DATE          : 
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 15, 2019 PDT
- #  REVISION #    : 4
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 5
  #  DESCRIPTION   : retrieves category information from the database
- #  PARAMETERS    : level id
+ #  PARAMETERS    : level id, category array
  #
  #######################################################################
 */
 
-function getCategories(lid) {
+function getCategories(lid, c) {
 
-  $.ajax({
-    url: "/categories",
-    method: 'GET'
-  }).then(function(c) {
+  for (var i = 0; i < c.length; i++) {
 
-    for (var i = 0; i < c.length; i++) {
+    var id = c[i].split(",")[0]
+    var name = c[i].split(",")[1]
+    var catNum = lid+"cat-"+id
 
-      var catNum = lid+"cat-"+c[i].id
+    catLabel = $("<label>");
+    catRadio = $("<input>");
 
-      catLabel = $("<label>");
-      catRadio = $("<input>");
+    catLabel.attr("for", catNum)
+      .attr("class", "catLabel")
+      .html(name);
 
-      catLabel.attr("for", catNum)
-        .attr("class", "catLabel")
-        .html(c[i].category_name);
+    catRadio.attr("type", "radio")
+      .attr("name", "category")
+      .attr("id", catNum)
+      .attr("class", "cat")
+      .attr("value", id);
 
-      catRadio.attr("type", "radio")
-        .attr("name", "category")
-        .attr("id", catNum)
-        .attr("class", "cat")
-        .attr("value", c[i].id);
-
-      $("#"+lid).append(catRadio);
-      $("#"+lid).append(catLabel);
-    
-    }
-
-  });
+    $("#"+lid).append(catRadio);
+    $("#"+lid).append(catLabel);
+  
+  }
 
 }
 
@@ -818,8 +817,8 @@ function login() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 18, 2019 PDT
- #  REVISION #    : 5
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 6
  #  DESCRIPTION   : retrieves user information
  #  PARAMETERS    : flag, callback
  #
@@ -843,7 +842,7 @@ function getSessionInfo(flag,callback) {
       switch (flag) {
         case 1: 
           if (globalUserId == null) {
-            window.location.href="index.html"
+            window.location.href="../../index.html"
           } else {
               //$("#currUser").empty().append(globalName);
               $(".usernameDropdown").text(globalName)
@@ -861,7 +860,7 @@ function getSessionInfo(flag,callback) {
             //window.location.href="index.html"
           } else {
               //$("#currUser").empty().append(globalName);
-              window.location.href="main.html"
+              window.location.href="./assets/html/main.html"
               if (callback != undefined)
                 callback()
             }
@@ -878,9 +877,9 @@ function getSessionInfo(flag,callback) {
  #  FUNCTION NAME : loadLevelsAndCategories
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 15, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : loads levels and category page
  #  PARAMETERS    : none
  #
@@ -963,9 +962,9 @@ function getQuestions(lid, cid) {
  #  FUNCTION NAME : createQuestions
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
- #  MODIFIED BY   : Juthika Shetye
- #  REVISION DATE : April 18, 2019 PDT
- #  REVISION #    : 1
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : creates the questions elements
  #  PARAMETERS    : json data, callback function
  #
@@ -1175,7 +1174,7 @@ function checkAnswers(obj) {
         case "1": var rand = Math.ceil(Math.random() * (5 - 1) + 1); break;
         case "2": var rand = Math.ceil(Math.random() * (10 - 5) + 5); break;
       }
-      //console.log(rand+">>><<<"+levObj)
+      console.log(rand+">>><<<"+levObj)
       $("#correctAudio").trigger("play");
       gameScore += rand
       // console.log(gameScore)
