@@ -24,13 +24,17 @@ Path - _https://www.npmjs.com/package/path_
 
 Method-Override - _https://www.npmjs.com/package/method-override_
 
-Session
+Session - _https://www.npmjs.com/package/express-session_
 
-Cookie Parser
+Cookie Parser - _https://www.npmjs.com/package/cookie-parser_
 
-MD5
+MD5 - _https://www.npmjs.com/package/md5_
+
+DotEnv - _https://www.npmjs.com/package/dotenv_
 
 ## Screenshots
+
+1. Downloading The App
 
 ## Credits
 

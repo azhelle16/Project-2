@@ -82,13 +82,13 @@ $(document).ready(function() {
     //will be used for team_id in users table
     userTeamId = $("input[name='teamName']:checked").val();
 
-    console.log(userTeamId);
+    //console.log(userTeamId);
 
   });
 
   //button for clicking submit for answers
   $('#update_score').on("click",function(e) {
-    console.log("hello")
+    //console.log("hello")
     updateUserScore(globalUserId);
 
   });
@@ -175,9 +175,9 @@ $(document).on("keypress",function(event){
  #  FUNCTION NAME : getTeams
  #  AUTHOR        : Juthika Shetye
  #  DATE          : 
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : April 19, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : retrieves team information from the database
  #  PARAMETERS    : none
  #
@@ -190,6 +190,10 @@ function getTeams() {
     url: "/teams",
     method: 'GET'
   }).then(function(t) {
+
+    $("#teamsDiv").empty()
+
+    var sel = 0
 
     for (var teamIndex in t) {
 
@@ -208,6 +212,13 @@ function getTeams() {
         .attr("id", t[teamIndex].id + radioNum) //unique id for radio
         .attr("class", "tRadio")
         .attr("value", t[teamIndex].id);
+
+      if (sel == 0) {
+        teamRadio.attr("checked","checked")
+        sel = 1
+      }
+
+
 
       $("#teamsDiv").append(teamRadio);
       $("#teamsDiv").append(teamLabel);
@@ -452,9 +463,9 @@ function teamScore(){
   }).then(function(sum){
 
     for (var i = 0; i < sum.length; i++) {
-      console.log("Total score of " + sum[i].Team_Name +
-                   " with ID " + sum[i].Team_Id + 
-                   " is : " + sum[i].Team_Score);
+      // console.log("Total score of " + sum[i].Team_Name +
+      //              " with ID " + sum[i].Team_Id + 
+      //              " is : " + sum[i].Team_Score);
     }
     
   });
@@ -497,9 +508,9 @@ function userRanks(){
   }).then(function(ranks){
 
     for (var i = 0; i < ranks.length; i++) {
-      console.log("Rank of " + ranks[i].username + " with ID " + 
-              ranks[i].id + " and score " + ranks[i].user_score + 
-                   " is : " + ranks[i].user_rank);
+      // console.log("Rank of " + ranks[i].username + " with ID " + 
+      //         ranks[i].id + " and score " + ranks[i].user_score + 
+      //              " is : " + ranks[i].user_rank);
 
       var userTr = $('<tr>');
       var userTdTeam = $('<td>').text(ranks[i].username);
@@ -578,7 +589,7 @@ function currUserTeamRank(id){
   }).done(function(tr){
 
     //returns user's id and team's rank
-    console.log(tr);
+    //console.log(tr);
     
     trank = tr;
 
@@ -659,7 +670,7 @@ function teamRanks(){
   }).then(function(t){
 
     for (var i = 0; i < t.length; i++) {
-      console.log("Team Ranks " , t[i]);
+      //console.log("Team Ranks " , t[i]);
 
       var tr = $('<tr>');
       var tdTeam = $('<td>').text(t[i].Team_Name);
@@ -696,7 +707,7 @@ function teamRanks(){
 function testingFunctions() {
 
   //fetching results.insertId / last inserted user_id
-    console.log("User ID: " + globalUserId);
+    //console.log("User ID: " + globalUserId);
 
     //displays all teams and their total scores
     teamScore();
@@ -952,9 +963,9 @@ function getQuestions(lid, cid) {
  #  FUNCTION NAME : createQuestions
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Juthika Shetye
+ #  REVISION DATE : April 18, 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : creates the questions elements
  #  PARAMETERS    : json data, callback function
  #
@@ -1144,8 +1155,8 @@ function runTimer() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 18, 2019 PDT
- #  REVISION #    : 2
+ #  REVISION DATE : April 19, 2019 PDT
+ #  REVISION #    : 3
  #  DESCRIPTION   : check if the selected answer is correct or wrong
  #  PARAMETERS    : radio button
  #
@@ -1170,8 +1181,8 @@ function checkAnswers(obj) {
       // console.log(gameScore)
     } else {
         $(obj).next().addClass("wrong_answer")
-        var a = $(obj)[0].parentElement.dataset.answer
-        // console.log(a)
+        var a = $(obj)[0].parentElement.parentElement.dataset.answer
+        console.log(a)
         $("#option-"+a).next().addClass("correct_answer")
         $("#wrongAudio").trigger("play");
       }

@@ -59,7 +59,7 @@ INSERT INTO questions (question, category_levels_id) VALUES
 /*27*/("What is a tomato, either a fruit or vegetable?",2),
 /*28*/("Which planet is closest to the Sun?",2),
 /*29*/("What are the bones around the chest known as for protection of the lungs and heart?",2),
-/*30*/("Which part of the human body is serving purpose of maintaning balance?",2),
+/*30*/("Which part of the human body is serving purpose of maintaining balance?",2),
 /*31*/("True or False - The horn of the rhinoceros is made up of hairs?",3),
 /*32*/("What was the name of the cheetah that has recorded the fastest speed?",3),
 /*33*/("What is the favorite food of rabbits?",3),
