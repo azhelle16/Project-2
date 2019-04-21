@@ -46,7 +46,7 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 <p align="center" style="color:gray;font-size:12px;"><i>Figure 1: Package Installation</i></p>
 
 ![Node Modules Folder](public/assets/screenshots/modules.png)
-<p align="center" style="color:gray;font-size:12px"><i>Figure 2: Inside the node\_modules folder. The yellow-lined modules are expected to be inside the folder for the app to work.</i></p>
+<p align="center" style="color:gray;font-size:12px"><i>Figure 2: Inside the node_modules folder. The yellow-lined modules are expected to be inside the folder for the app to work.</i></p>
 
 3. Building Your Database
 
