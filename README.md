@@ -43,10 +43,10 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 	- The packages listed above should be inside _"node\_modules"_ folder to make the app work. Otherwise, you have to manually download the package (Use the link to see instruction) (see Figure 2)
 
 ![Installing Packages](public/assets/screenshots/packages.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 1: Package Installation_</p>
+<p align="center" style="color:gray;font-size:12px;"><i>Figure 1: Package Installation</i></p>
 
 ![Node Modules Folder](public/assets/screenshots/modules.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 2: Inside the node\_modules folder. The yellow-lined modules are expected to be inside the folder for the app to work._</p>
+<p align="center" style="color:gray;font-size:12px"><i>Figure 2: Inside the node\_modules folder. The yellow-lined modules are expected to be inside the folder for the app to work.</i></p>
 
 3. Building Your Database
 
@@ -54,20 +54,20 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 	- Once logged in, run **_schema.sql_** followed by **_seeds.sql_**. (See Figures 4a and 4b)
 
 ![Logging Inside MySQL](public/assets/screenshots/sqlLogin.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 3: Successful login inside the MySQL._</p>
+<p align="center" style="color:gray;font-size:12px;"><i>Figure 3: Successful login inside the MySQL.</i></p>
 
 ![Creating The Database](public/assets/screenshots/schema.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 4a: Running schema.sql._</p>
+<p align="center" style="color:gray;font-size:12px;"><i>Figure 4a: Running schema.sql.</i></p>
 
 ![Creating The Database](public/assets/screenshots/seeds.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 4b: Running seeds.sql._</p>
+<p align="center" style="color:gray;font-size:12px;"><i>Figure 4b: Running seeds.sql.</i></p>
 
 4. Create Your _.env_ File
 
 	- Going back one directory up, create a file and save it as **_.env_**. Inside the file, provide your database credentials. (See Figure 5)
 
 ![Inside Env](public/assets/screenshots/envFile.png)
-<p align="center" style="color:gray;font-size:12px">_Figure 5: Information inside the .env file._</p>
+<p align="center" style="color:gray;font-size:12px;"><i>Figure 5: Information inside the .env file.</i></p>
 
 5. Running The App
 
@@ -75,7 +75,7 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 
 ![The Application](public/assets/screenshots/triviosa.png)
 
-_Voila!_ You know have Triviosa running in your browser :smile:
+**_Voila!_**/ You know have Triviosa running in your browser :smile:
 
 ## Credits
 
