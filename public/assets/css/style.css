@@ -185,7 +185,8 @@ strong {
 
 .urank,
 .uscore,
-.trank {
+.trank,
+.tscore {
   font-family: 'Georgia', Times, Times New Roman, serif;
   color: #DC143C;
 }

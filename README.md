@@ -2,13 +2,13 @@
 
 ## Description
 
-Triviosa is a single-player trivia game. The user has two options of level to choose from: _Easy_ and _Difficult_.
+<p>Triviosa is a single player trivia game.</p>
 
-In each levels, there are categories to be chosen from and each categories are scored based on the difficulties.
+<p>On sign-up the user creates an account with a unique username and selects a team of their choice. The player is then able to select a difficulty level to play a quiz related to the topic they choose.</p>
 
-Each user is binded to a team upon signing-up in the game.
+<p>Each question correctly answered adds random points to both your and your team's score. At the end of each game, you can see your score, rank and the overall ranking of your team. You can also checkout the Leaderboard to see the scores and rankings of all the players and teams.</p>
 
-This game was developed as part of the completion for the UC Berkeley Coding Bootcamp Program
+<p>This game was developed as a project for the UC Berkeley Coding Bootcamp, San Francisco.</p>
 
 ## Packages Used
 
@@ -20,11 +20,9 @@ Express - _https://www.npmjs.com/package/express_
 
 Body-Parser - _https://www.npmjs.com/package/body-parser_
 
-Path - _https://www.npmjs.com/package/path_
-
 Method-Override - _https://www.npmjs.com/package/method-override_
 
-Session - _https://www.npmjs.com/package/express-session_
+Express-Session - _https://www.npmjs.com/package/express-session_
 
 Cookie Parser - _https://www.npmjs.com/package/cookie-parser_
 
@@ -32,9 +30,52 @@ MD5 - _https://www.npmjs.com/package/md5_
 
 DotEnv - _https://www.npmjs.com/package/dotenv_
 
-## Screenshots
+## Setting Up The Application
 
 1. Downloading The App
+
+![Downloading The App](public/assets/screenshots/download.png)
+
+2. Install The Packages Listed 
+
+	- Using the _package.json_ file, run _"npm install"_ inside the Quiz-App folder (see Figure 1)
+		- if _"npm audit fix"_ shows up, just run the command after the installation 	
+	- The packages listed above should be inside _"node\_modules"_ folder to make the app work. Otherwise, you have to manually download the package (Use the link to see instruction) (see Figure 2)
+
+![Installing Packages](public/assets/screenshots/packages.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 1: Package Installation_</p>
+
+![Node Modules Folder](public/assets/screenshots/modules.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 2: Inside the node\_modules folder. The yellow-lined modules are expected to be inside the folder for the app to work._</p>
+
+3. Building Your Database
+
+	- The download includes two SQL files which can be found inside the **_db_** folder. Go inside the **_db_** folder then login to your MySQL via Terminal using your username and password. (See Figure 3)
+	- Once logged in, run **_schema.sql_** followed by **_seeds.sql_**. (See Figures 4a and 4b)
+
+![Logging Inside MySQL](public/assets/screenshots/sqlLogin.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 3: Successful login inside the MySQL._</p>
+
+![Creating The Database](public/assets/screenshots/schema.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 4a: Running schema.sql._</p>
+
+![Creating The Database](public/assets/screenshots/seeds.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 4b: Running seeds.sql._</p>
+
+4. Create Your _.env_ File
+
+	- Going back one directory up, create a file and save it as **_.env_**. Inside the file, provide your database credentials. (See Figure 5)
+
+![Inside Env](public/assets/screenshots/envFile.png)
+<p align="center" style="color:gray;font-size:12px">_Figure 5: Information inside the .env file._</p>
+
+5. Running The App
+
+![Running The File](public/assets/screenshots/nodemon.png)
+
+![The Application](public/assets/screenshots/triviosa.png)
+
+_Voila!_ You know have Triviosa running in your browser :smile:
 
 ## Credits
 

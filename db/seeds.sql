@@ -18,11 +18,11 @@ INSERT INTO categories (category_name) VALUES
 -- ("Movie");
 
 INSERT INTO category_levels (category_id, level_id) VALUES	
-/*1*/(1,1),
-/*2*/(1,2),
-/*3*/(2,1),
-/*4*/(2,2),
-/*5*/(3,1);
+/*1*/(1,1), /*animals easy*/
+/*2*/(1,2), /*animals difficult*/
+/*3*/(2,1), /*science easy*/
+/*4*/(2,2), /*science difficult*/
+/*5*/(3,1); /*music easy*/
 -- /*6*/(3,2),
 -- /*7*/(4,1),
 -- /*8*/(4,2),
@@ -55,16 +55,16 @@ INSERT INTO questions (question, category_levels_id) VALUES
 /*23*/("What do you call a baby kangaroo?",1),
 /*24*/("A female deer is called?",1),
 /*25*/("How many legs does a spider have?",1),
-/*26*/("How many bones are there in the human body?",2),
-/*27*/("What is a tomato, either a fruit or vegetable?",2),
-/*28*/("Which planet is closest to the Sun?",2),
-/*29*/("What are the bones around the chest known as for protection of the lungs and heart?",2),
-/*30*/("Which part of the human body is serving purpose of maintaining balance?",2),
-/*31*/("True or False - The horn of the rhinoceros is made up of hairs?",3),
-/*32*/("What was the name of the cheetah that has recorded the fastest speed?",3),
-/*33*/("What is the favorite food of rabbits?",3),
-/*34*/("The blind dolphins are found in which river?",3),
-/*35*/("Out of twelve, how many dogs survive in Titanic?",3),
+/*26*/("How many bones are there in the human body?",3),
+/*27*/("What is a tomato, either a fruit or vegetable?",3),
+/*28*/("Which planet is closest to the Sun?",3),
+/*29*/("What are the bones around the chest known as for protection of the lungs and heart?",3),
+/*30*/("Which part of the human body is serving purpose of maintaining balance?",3),
+/*31*/("True or False - The horn of the rhinoceros is made up of hairs?",2),
+/*32*/("What was the name of the cheetah that has recorded the fastest speed?",2),
+/*33*/("What is the favorite food of rabbits?",2),
+/*34*/("The blind dolphins are found in which river?",2),
+/*35*/("Out of twelve, how many dogs survive in Titanic?",2),
 /*36*/("Which scientists are studying motion?",4),
 /*37*/("When was penicillin made public?",4),
 /*38*/("What is the largest part of the human brain?",4),

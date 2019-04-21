@@ -69,7 +69,7 @@ var num
 var teamName 
 
 //user score
-var globalScore
+var globalScore = 0
 
 $(document).ready(function() {
 
@@ -129,7 +129,7 @@ $(document).on("click", 'button', function(e) {
       ind = 0
       secs = "10"
       qshowed = 0
-      $(".timer").addClass("dispHide")
+      $(".timer").css("visibility","hidden")
       loadLevelsAndCategories();
     break;
     case "submit":
@@ -150,8 +150,9 @@ $(document).on("click", 'button', function(e) {
       getQuestions(selectedLevel.split("level")[0],selectedCatValue)
     break;
     case "no":
-      $(".timer").addClass("dispHide")
+      $(".timer").css("visibility","hidden")
       $("#levelContainer").empty().load("quizResults.html",function() {
+        gameScore = 0;
         showResults(0)
       })
     break;
@@ -427,7 +428,6 @@ function loginSignUp(flag) {
                 userTeamId = c.team_id
                 globalName = c.username
                 globalUserId = c.id
-                globalScore = c.user_score
                 teamName = c.team_name
                 login()
               }
@@ -818,7 +818,7 @@ function login() {
  #  DATE          : April 14, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
  #  REVISION DATE : April 20, 2019 PDT
- #  REVISION #    : 6
+ #  REVISION #    : 7
  #  DESCRIPTION   : retrieves user information
  #  PARAMETERS    : flag, callback
  #
@@ -837,7 +837,7 @@ function getSessionInfo(flag,callback) {
       globalName = c[0]
       userTeamId = c[2]
       teamName = c[3]
-      globalScore = c[4]
+      //globalScore = c[4]
 
       switch (flag) {
         case 1: 
@@ -1174,14 +1174,14 @@ function checkAnswers(obj) {
         case "1": var rand = Math.ceil(Math.random() * (5 - 1) + 1); break;
         case "2": var rand = Math.ceil(Math.random() * (10 - 5) + 5); break;
       }
-      console.log(rand+">>><<<"+levObj)
+      //console.log(rand+">>><<<"+levObj)
       $("#correctAudio").trigger("play");
       gameScore += rand
       // console.log(gameScore)
     } else {
         $(obj).next().addClass("wrong_answer")
         var a = $(obj)[0].parentElement.parentElement.dataset.answer
-        console.log(a)
+        //console.log(a)
         $("#option-"+a).next().addClass("correct_answer")
         $("#wrongAudio").trigger("play");
       }
@@ -1237,8 +1237,8 @@ function initializeRadioButtons() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : April 16, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : April 18, 2019 PDT
- #  REVISION #    : 1
+ #  REVISION DATE : April 20, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : initialize onclick functionality of the radiobuttons
  #  PARAMETERS    : flag
  #
@@ -1247,15 +1247,25 @@ function initializeRadioButtons() {
 
 function showResults(flag) {
 
-  $(".uscore").text(gameScore)
+  
   //console.log(getCurrUserRank(globalUserId))
+  // console.log("GAME SCORE: "+gameScore)
+  // console.log("GLOBALSCORE BEFORE: "+globalScore)
+  globalScore += gameScore
+  //console.log("GLOBALSCORE AFTER: "+globalScore)
+  //$(".tscore").text(gameScore)
   var b = getCurrUserRank(globalUserId)
   $(".urank").text(b.user_rank)
   var y = currUserTeamRank(globalUserId)
   $(".teamRankDropdown").text(y.Team_Rank)
   $(".trank").text(y.Team_Rank)
-  if (flag == 1)
+  if (flag == 1) {
+    $(".uscore").text(gameScore)
     $("#resultsModal").modal("show")
+  } else {
+    $(".tscore").text(globalScore)
+    globalScore = 0  
+   }
 }
 
 /*
