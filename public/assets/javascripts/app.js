@@ -1238,7 +1238,7 @@ function initializeRadioButtons() {
  #  DATE          : April 16, 2019 PDT
  #  MODIFIED BY   : Maricel Louise Sumulong
  #  REVISION DATE : April 20, 2019 PDT
- #  REVISION #    : 2
+ #  REVISION #    : 4
  #  DESCRIPTION   : initialize onclick functionality of the radiobuttons
  #  PARAMETERS    : flag
  #
@@ -1252,10 +1252,10 @@ function showResults(flag) {
   // console.log("GAME SCORE: "+gameScore)
   // console.log("GLOBALSCORE BEFORE: "+globalScore)
   globalScore += gameScore
-  //console.log("GLOBALSCORE AFTER: "+globalScore)
+  // console.log("GLOBALSCORE AFTER: "+globalScore)
   //$(".tscore").text(gameScore)
   var b = getCurrUserRank(globalUserId)
-  $(".urank").text(b.user_rank)
+  $(".urank, .rankDropdown").text(b.user_rank)
   var y = currUserTeamRank(globalUserId)
   $(".teamRankDropdown").text(y.Team_Rank)
   $(".trank").text(y.Team_Rank)
