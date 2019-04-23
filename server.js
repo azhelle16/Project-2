@@ -45,13 +45,6 @@ if (process.env.JAWSDB_URL) {
 
 //console.log(process.env.DB_HOST)
 
-// var connection = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   database: 'quiz_app'
-// });
-
 connection.connect();
 
 app.get('/teams', function(req, res) {
@@ -93,13 +86,6 @@ app.get('/level-cats', function(req, res) {
     else res.json(results);
   });
 });
-
-// app.get('/questions', function(req, res) {
-//   connection.query('SELECT * FROM questions', function(error, results, fields) {
-//     if (error) res.send(error)
-//     else res.json(results);
-//   });
-// });
 
 app.post('/questions', function(req, res) {
   connection.query('SELECT answers.question_id, questions.question, solutions.correct_ans_id, ' +
@@ -201,11 +187,13 @@ app.post('/login', function(req, res) {
 //gets all users and their ranks with same rank for tied scores
 app.get('/all-user-ranks', function(req, res) {
 
-  const allRanks = `SELECT id, username, user_score,
+  const allRanks = `SELECT users.id AS id, username, user_score, team_name,
                     DENSE_RANK() OVER (
                       ORDER BY user_score DESC
                     ) user_rank
-                    FROM users`
+                    FROM users
+                    LEFT JOIN teams
+                    ON users.team_id = teams.id`
 
   connection.query(allRanks, function(error, results, fields) {
     if (error) res.send(error)
@@ -229,6 +217,23 @@ app.get('/user-rank/:user_id', function(req, res) {
   connection.query(userRank, [req.params.user_id], function(error, results, fields) {
     if (error) res.send(error)
     else res.send(results[0]);
+  });
+});
+
+//gets rankings of all players in user's team
+app.get('/rank-in-team/:user_id', function(req, res) {
+
+  const rankInTeam = `SELECT users.id, username, DENSE_RANK() OVER (
+                        ORDER BY user_score DESC
+                      ) user_rank, user_score, team_name
+                      FROM users
+                      LEFT JOIN teams
+                      ON users.team_id = teams.id
+                      WHERE users.team_id = ?`
+
+  connection.query(rankInTeam, [req.params.user_id], function(error, results, fields) {
+    if (error) res.send(error)
+    else res.send(results);
   });
 });
 
