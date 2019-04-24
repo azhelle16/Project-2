@@ -58,6 +58,7 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 
 	- The download includes two SQL files which can be found inside the **_db_** folder. Go inside the **_db_** folder then login to your MySQL via Terminal using your username and password. (See Figure 3)
 	- Once logged in, run **_schema.sql_** followed by **_seeds.sql_**. (See Figures 4a and 4b)
+	- SQL Version required is 8.0 and up
 
 ![Logging Inside MySQL](public/assets/screenshots/sqlLogin.png)
 <p align="center" style="color:gray;font-size:12px;"><i>Figure 3: Successful login inside the MySQL.</i></p>

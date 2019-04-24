@@ -16,7 +16,6 @@
 /* GLOBAL VARIABLES */
 
 //will be used for team_id in users table
-
 var userTeamId;
 
 //checked category's level
@@ -219,8 +218,6 @@ function getTeams() {
         sel = 1
       }
 
-
-
       $("#teamsDiv").append(teamRadio);
       $("#teamsDiv").append(teamLabel);
 
@@ -251,8 +248,6 @@ function getLevels() {
     url: "/level-cats",
     method: 'GET'
   }).then(function(l) {
-
-    // console.log(l)
 
     for (var levelIndex in l) {
 
@@ -453,22 +448,22 @@ function loginSignUp(flag) {
  #######################################################################
 */
 
-function teamScore(){
+// function teamScore(){
 
-  $.ajax({
-    url: '/team-score',
-    method: 'GET'
+//   $.ajax({
+//     url: '/team-score',
+//     method: 'GET'
     
-  }).then(function(sum){
+//   }).then(function(sum){
 
-    for (var i = 0; i < sum.length; i++) {
-      // console.log("Total score of " + sum[i].Team_Name +
-      //              " with ID " + sum[i].Team_Id + 
-      //              " is : " + sum[i].Team_Score);
-    }
+//     for (var i = 0; i < sum.length; i++) {
+//       // console.log("Total score of " + sum[i].Team_Name +
+//       //              " with ID " + sum[i].Team_Id + 
+//       //              " is : " + sum[i].Team_Score);
+//     }
     
-  });
-}
+//   });
+// }
 
 /*
  #######################################################################
@@ -476,9 +471,9 @@ function teamScore(){
  #  FUNCTION NAME : userRanks
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 13, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Juthika
+ #  REVISION DATE : April 22 2019 PDT
+ #  REVISION #    : 1
  #  DESCRIPTION   : returns all users' ranks
  #  PARAMETERS    : 
  #
@@ -490,11 +485,12 @@ function userRanks(){
   var userTable = $('<table>').addClass('table table-striped table-bordered');      
   var userThead = $('<thead>').addClass('thead-dark');  
   var userTr = $('<tr>');        
-  var userThTeam = $('<th>').text('Player Name');  
+  var userThName = $('<th>').text('Player');
+  var userThRank = $('<th>').text('Overall Rank'); 
   var userThScore = $('<th>').text('Score');
-  var userThRank = $('<th>').text('Rank');
+  var userThTeam = $('<th>').text('Team');
 
-  userTr.append(userThTeam, userThScore, userThRank);
+  userTr.append(userThName, userThRank, userThScore, userThTeam);
   userThead.append(userTr);             
   userTable.append(userThead);
 
@@ -512,16 +508,73 @@ function userRanks(){
       //              " is : " + ranks[i].user_rank);
 
       var userTr = $('<tr>');
-      var userTdTeam = $('<td>').text(ranks[i].username);
-      var userTdScore = $('<td>').text(ranks[i].user_score);
+      var userTdName = $('<td>').text(ranks[i].username);
       var userTdRank = $('<td>').text(ranks[i].user_rank);
+      var userTdScore = $('<td>').text(ranks[i].user_score);
+      var userTdTeam = $('<td>').text(ranks[i].team_name);
 
-      userTr.append(userTdTeam, userTdScore, userTdRank);
+      userTr.append(userTdName, userTdRank, userTdScore, userTdTeam);
       userTbody.append(userTr);
       userTable.append(userTbody);
       $('#playerRanksDiv').append(userTable);
     }
     
+  });
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : rankInMyTeam
+ #  AUTHOR        : Juthika Shetye
+ #  DATE          : April 22, 2019 PDT
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : returns all player ranks in current user's team
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function rankInMyTeam(id){
+
+  var t = $('<table>').addClass('table table-striped table-bordered');      
+  var teamThead = $('<thead>').addClass('thead-dark');  
+  var teamTr = $('<tr>');        
+  var teamThPlayer = $('<th>').text('Player');
+  var teamThRank = $('<th>').text('Rank in Team');
+  var teamThScore = $('<th>').text('Score');
+  var teamTh = $('<th>').text('Team');
+
+  teamTr.append(teamThPlayer, teamThRank, teamThScore, teamTh);
+  teamThead.append(teamTr);             
+  t.append(teamThead);
+
+  var teamTbody = $('<tbody>');
+
+  $.ajax({
+    url: '/rank-in-team/' + id,
+    method: 'GET'
+
+  }).then(function(mtr){
+
+    console.log(mtr);
+
+    for (var i = 0; i < mtr.length; i++) {
+
+      var teamTr = $('<tr>');
+      var teamtdPlayer = $('<td>').text(mtr[i].username);
+      var teamtdRank = $('<td>').text(mtr[i].user_rank);
+      var teamtdScore = $('<td>').text(mtr[i].user_score);
+      var teamtdTeam = $('<td>').text(mtr[i].team_name);
+      
+      teamTr.append(teamtdPlayer, teamtdRank, teamtdScore, teamtdTeam);
+      teamTbody.append(teamTr);
+      t.append(teamTbody);
+      $('#myTeamRanksDiv').append(t);
+    }
+
   });
 }
 
@@ -637,9 +690,9 @@ function updateUserScore(id,callback){
  #  FUNCTION NAME : teamRanks
  #  AUTHOR        : Juthika Shetye
  #  DATE          : April 13, 2019 PDT
- #  MODIFIED BY   : 
- #  REVISION DATE : April 17, 2019 PDT
- #  REVISION #    : 1
+ #  MODIFIED BY   : Juthika Shetye
+ #  REVISION DATE : April 22, 2019 PDT
+ #  REVISION #    : 2
  #  DESCRIPTION   : returns all teams' ranks and no. of players per team
  #  PARAMETERS    : 
  #
@@ -651,12 +704,12 @@ function teamRanks(){
   var table = $('<table>').addClass('table table-striped table-bordered');      
   var thead = $('<thead>').addClass('thead-dark');  
   var tr = $('<tr>');        
-  var thTeam = $('<th>').text('Team Name');
-  var thPlayers = $('<th>').text('Players');
-  var thScore = $('<th>').text('Score');
+  var thTeam = $('<th>').text('Team');
   var thRank = $('<th>').text('Rank');
-
-  tr.append(thTeam, thPlayers, thScore, thRank);
+  var thScore = $('<th>').text('Score');
+  var thPlayers = $('<th>').text('Players');
+  
+  tr.append(thTeam, thRank, thScore, thPlayers);
   thead.append(tr);             
   table.append(thead);
 
@@ -673,11 +726,11 @@ function teamRanks(){
 
       var tr = $('<tr>');
       var tdTeam = $('<td>').text(t[i].Team_Name);
-      var tdPlayers = $('<td>').text(t[i].No_Of_Players);
-      var tdScore = $('<td>').text(t[i].Team_Score);
       var tdRank = $('<td>').text(t[i].Team_Rank);
+      var tdScore = $('<td>').text(t[i].Team_Score);
+      var tdPlayers = $('<td>').text(t[i].No_Of_Players);
 
-      tr.append(tdTeam, tdPlayers, tdScore, tdRank);
+      tr.append(tdTeam, tdRank, tdScore, tdPlayers);
       tbody.append(tr);
       table.append(tbody);
       $('#teamRanksDiv').append(table);
@@ -696,8 +749,8 @@ function teamRanks(){
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : call all functions to be executed 
-          after signUp / logIn ajax call or after
-          answering all questions
+                    after signUp / logIn ajax call or after
+                    answering all questions
  #  PARAMETERS    : 
  #
  #######################################################################
@@ -709,7 +762,7 @@ function testingFunctions() {
     //console.log("User ID: " + globalUserId);
 
     //displays all teams and their total scores
-    teamScore();
+    // teamScore();
 
     //displays all users and their ranks 
     userRanks();
@@ -719,6 +772,8 @@ function testingFunctions() {
     teamRanks();
 
     currUserTeamRank(globalUserId);
+
+    rankInMyTeam(userTeamId);
 }
 
 
@@ -1246,8 +1301,7 @@ function initializeRadioButtons() {
 */
 
 function showResults(flag) {
-
-  
+ 
   //console.log(getCurrUserRank(globalUserId))
   // console.log("GAME SCORE: "+gameScore)
   // console.log("GLOBALSCORE BEFORE: "+globalScore)
