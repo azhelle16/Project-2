@@ -30,6 +30,12 @@ MD5 - _https://www.npmjs.com/package/md5_
 
 DotEnv - _https://www.npmjs.com/package/dotenv_
 
+## System Requirements
+
+1. NodeJS - version 10 and up
+
+2. MySQL - version 8.0 
+
 ## Setting Up The Application
 
 1. Downloading The App
