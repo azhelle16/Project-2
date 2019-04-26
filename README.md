@@ -82,7 +82,7 @@ DotEnv - _https://www.npmjs.com/package/dotenv_
 
 ![The Application](public/assets/screenshots/triviosa.png)
 
-**_Voila!_**/ You know have Triviosa running in your browser :smile:
+**_Voila!_** You now have Triviosa running in your browser :smile:
 
 ## Credits
 
