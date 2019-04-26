@@ -266,7 +266,7 @@ INSERT INTO answers (option_name, question_id) VALUES
 ("brainstem",38),
 ("antebellum",38),
 
-/*39*/("Radon Nitogen and Krypton",39),
+/*39*/("Radon Nitrogen and Krypton",39),
 ("Neon Radon and Hydrogen",39),
 ("Chlorine Krypton and Oxygen",39),
 ("Helium Argon and Xenon",39),
